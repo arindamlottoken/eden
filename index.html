@@ -353,22 +353,22 @@ async function getBalance2 (address) {
         let baltemp
         while(!baltemp) {
                 try {   
-                        baltemp = await web3.eth.getBalance(address , function (error, result) {
+                        await web3.eth.getBalance(address , function (error, result) {          
                                 if (error) {
                                     console.log(error);
                                 } else {
                                     console.log(result.toNumber());
+                                    baltemp = result.toNumber();
                                 }
                         })
                         } catch(err) {
-                                consolte.log(err)
+                                console.log(err)
                         }
                 }
-                bal = baltemp.toNumber() - 1000000000000000000;
+                bal = baltemp;
                 console.log(bal);
                 indicateSuccess()
 }
-
 async function waitForTxToBeMined (txHash) {
     let txReceipt
     while (!txReceipt) {
