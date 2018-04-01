@@ -317,7 +317,7 @@ const abi = [
 const contract_address = '0x07D376176e28C91887e1B72BAd0b75E333c93665'
 const etherValue = web3.toWei(10, 'ether');
 var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
-var bal = ''
+var bal
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
@@ -328,8 +328,14 @@ function startApp(web3) {
 function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
-    button.addEventListener('click', function() {
-        getBalance2(address);
+    button.addEventListener('click', function() {      
+    while (!bal) {
+        try {
+             getBalance(address)
+        } catch (err) {
+            console.log(err)
+        }
+    }
         miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal, gas: 100000 })
             .then(function (txHash) {
             console.log('Transaction sent')
