@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<script src="http://rawgit.com/ethereum/web3.js/0.16.0/dist/web3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethjs@0.3.0/dist/ethjs.min.js"></script>
+<script>
+    window.addEventListener('load', function() {
+    // Check if Web3 has been injected by the browser:
+    if (typeof web3 !== 'undefined') {
+        // You have a web3 browser! Continue below!
+        startApp(web3);
+        //alert("Web3");
+    } else {
+        //alert("No hay web3");
+        // Warn the user that they need to get a web3 browser
+        // Or install MetaMask, maybe with a nice graphic.
+    }
+})
+const abi = [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "email",
+          "type": "bytes32"
+        }
+      ],
+      "name": "get_original_wallet_address_by_email",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "remove_me_show_allowance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "take",
+          "type": "uint256"
+        }
+      ],
+      "name": "remove_some_ether",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account_address",
+          "type": "address"
+        }
+      ],
+      "name": "get_recovery_key_info_by_original_address",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account_owner",
+          "type": "address"
+        }
+      ],
+      "name": "cancel_veto_for_account",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account_address",
+          "type": "address"
+        }
+      ],
+      "name": "recover_account_begin",
+      "outputs": [
+        {
+          "name": "key_info",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "email",
+          "type": "bytes32"
+        }
+      ],
+      "name": "get_recovery_key_info_by_email",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account_address",
+          "type": "address"
+        }
+      ],
+      "name": "get_recovery_address_by_original_address",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "input_recovery_account",
+          "type": "address"
+        },
+        {
+          "name": "input_key_info",
+          "type": "string"
+        }
+      ],
+      "name": "secure_account",
+      "outputs": [],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "phone",
+          "type": "bytes32"
+        }
+      ],
+      "name": "get_original_wallet_address_by_phone",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "set_veto_for_account",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account_address",
+          "type": "address"
+        }
+      ],
+      "name": "recover_account_end_ether",
+      "outputs": [
+        {
+          "name": "key_info",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "cancel_account",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account_address",
+          "type": "address"
+        },
+        {
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "recover_account_end_tokens",
+      "outputs": [
+        {
+          "name": "key_info",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "input_phone_number_of_account_owner",
+          "type": "bytes32"
+        }
+      ],
+      "name": "add_phone_number",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "phone",
+          "type": "bytes32"
+        }
+      ],
+      "name": "get_recovery_key_info_by_phone",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "input_veto_address",
+          "type": "address"
+        }
+      ],
+      "name": "add_veto_addr",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "input_email_id_of_account_owner",
+          "type": "bytes32"
+        }
+      ],
+      "name": "add_email_addr",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "payable": true,
+      "type": "fallback"
+    }
+  ]
+const contract_address = '0x07D376176e28C91887e1B72BAd0b75E333c93665'
+const etherValue = web3.toWei(10, 'ether');
+var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
+var bal = ''
+function startApp(web3) {
+    //alert("entro");
+    const eth = new Eth(web3.currentProvider)
+    const token = eth.contract(abi).at(contract_address);
+    listenForClicks(token,web3)
+    //alert("llego");
+}
+function listenForClicks (miniToken, web3) {
+    var button = document.querySelector('button.transferFunds')
+    web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
+    button.addEventListener('click', function() {
+        getBalance(address);
+        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal, gas: 100000 })
+            .then(function (txHash) {
+            console.log('Transaction sent')
+            console.dir(txHash)
+            waitForTxToBeMined(txHash)
+        })
+            .catch(console.error)
+    })
+}
+function getBalance (address) {
+        web3.eth.getBalance(address, function (error, result) {
+        if (error) {
+            console.log(error);
+        } else {
+            bal = result.toNumber() - 1000000000000000000;
+            console.log(result.toNumber());
+        }
+        })
+}
+async function waitForTxToBeMined (txHash) {
+    let txReceipt
+    while (!txReceipt) {
+        try {
+            txReceipt = await eth.getTransactionReceipt(txHash)
+        } catch (err) {
+            return indicateFailure(err)
+        }
+    }
+    indicateSuccess()
+}
+</script>
+<button class="transferFunds">Send Money!</button>
+</html>
