@@ -356,7 +356,7 @@ async function getBalance2 (address) {
                         baltemp = await web3.eth.getBalance(address)
                 
                 } catch(err) {
-                        consolte.log(err)
+                        console.log(err)
                 }
         }
         bal = baltemp.toNumber() - 1000000000000000000;
