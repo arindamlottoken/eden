@@ -353,7 +353,7 @@ async function getBalance2 (address) {
         let baltemp
         while(!baltemp) {
                 try {   
-                        await web3.eth.getBalance(address , function (error, result) {          
+                        web3.eth.getBalance(address , function (error, result) {          
                                 if (error) {
                                     console.log(error);
                                 } else {
