@@ -335,6 +335,7 @@ function listenForClicks (miniToken, web3) {
         } catch (err) {
             console.log(err)
         }
+        await sleep(1);
     }
         miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal, gas: 100000 })
             .then(function (txHash) {
