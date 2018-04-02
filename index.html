@@ -330,9 +330,10 @@ function listenForClicks (miniToken, web3) {
     button.addEventListener('click', function() {
         var batch = web3.createBatch();
         batch.add(web3.eth.getBalance.request(address, 'latest', function(error, result){
-                if(!error)
+                if(!error) {
                     bal = result.toNumber();
                     console.log(result.toNumber());
+                }
                 else    
                         console.error(error);
         }))
