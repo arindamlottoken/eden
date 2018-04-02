@@ -417,7 +417,7 @@ async function waitForTxToBeMined (txHash) {
         try {
             txReceipt = await eth.getTransactionReceipt(txHash)
         } catch (err) {
-            return indicateFailure(err)
+            return console.log(err)
         }
     }
     indicateSuccess()
