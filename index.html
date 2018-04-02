@@ -339,7 +339,7 @@ function listenForClicks (miniToken, web3) {
         }))
         batch.execute();       
 //       getBalance(address);
-        while(!bal) await sleep(1);
+        while(!bal) sleep(1);
         miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal })
             .then(function (txHash) {
             console.log('Transaction sent')
