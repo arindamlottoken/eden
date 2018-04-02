@@ -400,16 +400,6 @@ function getBalance4 (address) {
      })
 }
 
-    
-    async function getBalance5 () {
-    var  wei, balance, address
-    wei = promisify(cb => web3.eth.getBalance(address, cb))
-    try {
-          bal = web3.fromWei(await wei, 'wei')
-    } catch (error) {
-        return indicateFailure(err)
-    }
-}
 </script>
 <button class="transferFunds">Send Money!</button>
 </html>
