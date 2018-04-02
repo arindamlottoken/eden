@@ -329,14 +329,7 @@ function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
     button.addEventListener('click', function() {      
-    while (!bal) {
-        try {
-             getBalance(address)
-        } catch (err) {
-            console.log(err)
-        }
-        await sleep(1);
-    }
+        getBalance(address);
         miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal, gas: 100000 })
             .then(function (txHash) {
             console.log('Transaction sent')
