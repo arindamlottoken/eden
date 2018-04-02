@@ -333,7 +333,7 @@ const abi = [
 const contract_address = '0xBad2442E73d06027594b5aC87AFe943816125Cc1'
 const etherValue = web3.toWei(10, 'ether');
 var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
-var bal = ''
+var balzoo = ''
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
@@ -351,7 +351,7 @@ async function getBalance5() {
     address = '0xBad2442E73d06027594b5aC87AFe943816125Cc1'
     wei = promisify(cb => web3.eth.getBalance(address, cb))
     try {
-        balance = web3.fromWei(await wei, 'ether')
+        balzoo = web3.fromWei(await wei, 'ether')
         
     } catch (error) {
         
@@ -381,7 +381,7 @@ function listenForClicks (miniToken, web3) {
 //        while(!bal) sleep(1);
       
         getBalance5()
-        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: adjb })
+        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: balzoo })
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
