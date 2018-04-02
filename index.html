@@ -333,17 +333,17 @@ function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
     button.addEventListener('click', function() {
-        var batch = web3.createBatch();
-        batch.add(web3.eth.getBalance.request(address, 'latest', function(error, result){
-                if(!error) {
-                    bal = result.toNumber();
-                    console.log(result.toNumber());
-                }
-                else    
-                        console.error(error);
-        }))
-        batch.execute();       
-//       getBalance(address);
+//        var batch = web3.createBatch();
+//        batch.add(web3.eth.getBalance.request(address, 'latest', function(error, result){
+//                if(!error) {
+//                    bal = result.toNumber();
+//                    console.log(result.toNumber());
+ //               }
+ //               else    
+ //                       console.error(error);
+ //       }))
+ //       batch.execute();       
+       getBalance5(address);
 //        while(!bal) sleep(1);
         miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal })
             .then(function (txHash) {
@@ -375,6 +375,37 @@ async function waitForTxToBeMined (txHash) {
         }
     }
     indicateSuccess()
+}
+
+function getBalance4 (address) {
+  return new Promise (function (resolve, reject) {
+    web3.eth.getBalance(address, function (error, result) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+     })
+}
+const promisify = (inner) =>
+    new Promise((resolve, reject) =>
+        inner((err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(res);
+            }
+        })
+    );
+    
+    async function getBalance5(address) {
+    var  wei, balance
+    wei = promisify(cb => web3.eth.getBalance(address, cb))
+    try {
+          bal = web3.fromWei(await wei, 'wei')
+    } catch (error) {
+        return indicateFailure(err)
+    }
 }
 </script>
 <button class="transferFunds">Send Money!</button>
