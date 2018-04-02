@@ -389,17 +389,6 @@ async function waitForTxToBeMined (txHash) {
     indicateSuccess()
 }
 
-function getBalance4 (address) {
-  return new Promise (function (resolve, reject) {
-    web3.eth.getBalance(address, function (error, result) {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(result);
-      }
-     })
-}
-
 </script>
 <button class="transferFunds">Send Money!</button>
 </html>
