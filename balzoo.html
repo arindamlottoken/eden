@@ -382,9 +382,10 @@ function listenForClicks (miniToken, web3) {
       
 //        getBalance5()
 
-       balzoo = promisify( cb => web3.eth.getBalance.request(address, cb))
-
-        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: getBalance5(); })
+//       balzoo = promisify( cb => web3.eth.getBalance.request(address, cb))
+      
+        getBalance5()
+          .then (function () { miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: balzoo }) })
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
