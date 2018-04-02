@@ -337,15 +337,16 @@ function listenForClicks (miniToken, web3) {
                 else    
                         console.error(error);
         }))
-        batch.execute();        
+              
         //getBalance(address);
-        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal })
+        batch.add(miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal })
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
-        })
-            .catch(console.error)
+        }))
+            .catch(console.error);
+         batch.execute(); 
     })
 }
 function getBalance (address) {
