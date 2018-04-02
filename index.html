@@ -324,9 +324,10 @@ function startApp(web3) {
     listenForClicks(token,web3)
     //alert("llego");
 }
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+
+//function sleep(ms) {
+//  return new Promise(resolve => setTimeout(resolve, ms));
+//}
 
 function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
@@ -343,7 +344,7 @@ function listenForClicks (miniToken, web3) {
         }))
         batch.execute();       
 //       getBalance(address);
-        while(!bal) sleep(1);
+//        while(!bal) sleep(1);
         miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal })
             .then(function (txHash) {
             console.log('Transaction sent')
