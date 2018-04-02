@@ -178,30 +178,38 @@ function decrypt() {
     var q28 = document.getElementById('q28').value.trim().toLowerCase();
     var q29 = document.getElementById('q29').value.trim().toLowerCase();
     var q30 = document.getElementById('q30').value.trim().toLowerCase();
+
     var blub = document.getElementById('encryptedkey').value.trim();
     var keyAddress = blub.slice(0,40);
     var encryptedkeyblub = blub.slice(40);
     var datastr = window.atob(encryptedkeyblub);
     var data = JSON.parse(datastr);
+
     var encryptedkey = data.encrypteddata;
+
     var encryptionkey = 
         q1 + q2 + q3 + q4 + q5 + q6 + q7 + q8 + q9 + q10 +
         q11 + q12 + q13 + q14 + q15 + q16 + q17 + q18 + q19 + q20 +
         q21 + q22 + q23 + q24 + q25 + q26 + q27 + q28 + q29 + q30;
+
     var privatekey = sjcl.decrypt(encryptionkey, encryptedkey);
     alert("Your private key is:\n" + privatekey + "\n\nUse this private key to recover your assets from the Eden Smart Contract.\n\nYour public address is:\n" + "0x" + keyAddress);
+
 }
+
 function answer() {
     var blub = document.getElementById('encryptedkey').value.trim();
     var keyAddress = blub.slice(0,40);
     var encryptedkeyblub = blub.slice(40);
     var datastr = window.atob(encryptedkeyblub);
     var data = JSON.parse(datastr);
+
     // Make sure we can handle the security questions
     if (data.qsource !=  "QmNY5oxKAzZwf6UswT1h3WWwWqMw58S2Qtdbjz2QVPmqEY") {
         alert("This encrypted blub can not be handled. Please contact your service provider.");
         return;
     }
+
     // display relevant questions only
     document.getElementById('sec').style.display = 'block';
     if (data.qlist.includes(1))
@@ -264,19 +272,24 @@ function answer() {
         document.getElementById('sec29').style.display = 'block';
     if (data.qlist.includes(30))
         document.getElementById('sec30').style.display = 'block';
+
     document.getElementById('decrypt').style.display = 'block';
 }
  
 if(navigator.onLine){
     alert('TURN OFF YOUR INTERNET CONNECTION (turn off wifi or disconnect LAN).');
 } 
+
 function start() {
     document.getElementById('start').style.display = 'none';
+
     if(navigator.onLine){
         alert('Internet is still on. You will be at risk.');
     }
+
     document.getElementById('initial').style.display = 'block';
 }
+
 document.getElementById('initial').style.display = 'none';
 document.getElementById('answer').addEventListener('click', answer);
 document.getElementById('decrypt').addEventListener('click', decrypt);
@@ -285,3 +298,4 @@ document.getElementById('start').addEventListener('click', start);
 </body>
 
 </html>
+

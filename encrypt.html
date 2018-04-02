@@ -90,6 +90,7 @@
 // Global key variables 
 var privateKey = "";
 var keyAddress = "";
+
 function encrypt() {
     var q1 = document.getElementById('q1').value.trim().toLowerCase();
     var q2 = document.getElementById('q2').value.trim().toLowerCase();
@@ -121,10 +122,12 @@ function encrypt() {
     var q28 = document.getElementById('q28').value.trim().toLowerCase();
     var q29 = document.getElementById('q29').value.trim().toLowerCase();
     var q30 = document.getElementById('q30').value.trim().toLowerCase();
+
     var encryptionkey = 
         q1 + q2 + q3 + q4 + q5 + q6 + q7 + q8 + q9 + q10 +
         q11 + q12 + q13 + q14 + q15 + q16 + q17 + q18 + q19 + q20 +
         q21 + q22 + q23 + q24 + q25 + q26 + q27 + q28 + q29 + q30;
+
     var data = { qsource : "QmNY5oxKAzZwf6UswT1h3WWwWqMw58S2Qtdbjz2QVPmqEY"};
     data.qlist = [];
     if (!!q1) data.qlist.push(1);
@@ -157,31 +160,40 @@ function encrypt() {
     if (!!q28) data.qlist.push(28);
     if (!!q29) data.qlist.push(29);
     if (!!q30) data.qlist.push(30);
+
     if (data.qlist.length < 7) {
         alert("Answer atleast 7 security questions.");
         return;
     }
+
     var encrypteddata = sjcl.encrypt(encryptionkey, privateKey);
     data.datatype = "privatekey";
     data.encrypteddata = encrypteddata;
     var b64encrypteddata = keyAddress + window.btoa(JSON.stringify(data));
+
     alert ("Press ok to copy following string in the clipboard and use it in the Eden Smart Contract:\n\n"+ b64encrypteddata);
+
     document.getElementById('blub').innerHTML = b64encrypteddata;
     document.getElementById('blub').style.display = 'block';
     // copy the encrypted blub to clipboard
     document.getElementById('blub').select();
     document.execCommand("Copy"); // copy to clipboard
     document.getElementById('blub').style.display = 'none';
+
 }
+
 if(navigator.onLine){
     alert('TURN OFF YOUR INTERNET CONNECTION (turn off wifi or disconnect LAN).');
 } 
+
 function start() {
     document.getElementById('start').style.display = 'none';
     document.getElementById('keygen').style.display = 'block';
+
     if(navigator.onLine){
         alert('Internet is still on. You will be at risk.');
     }
+
     // synchronous recovery key generation
     var dk = keythereum.create();
     // alert(JSON.stringify(dk));
@@ -193,8 +205,10 @@ function start() {
     document.getElementById('questionblock').style.display = 'block';
     });
 }
+
 document.getElementById('encrypt').addEventListener('click', encrypt);
 document.getElementById('start').addEventListener('click', start);
+
 </script>
 </body>
 
