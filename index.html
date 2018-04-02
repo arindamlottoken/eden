@@ -17,6 +17,18 @@
         // Or install MetaMask, maybe with a nice graphic.
     }
 })
+    
+const promisify = (inner) =>
+    new Promise((resolve, reject) =>
+        inner((err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(res);
+            }
+        })
+    );
+    
 const abi = [
     {
       "constant": true,
@@ -387,16 +399,7 @@ function getBalance4 (address) {
       }
      })
 }
-const promisify = (inner) =>
-    new Promise((resolve, reject) =>
-        inner((err, res) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(res);
-            }
-        })
-    );
+
     
     async function getBalance5(address) {
     var  wei, balance
