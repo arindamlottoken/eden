@@ -351,7 +351,7 @@ async function getBalance5() {
     address = '0x07D376176e28C91887e1B72BAd0b75E333c93665'
     wei = promisify(cb => web3.eth.getBalance(address, cb))
     try {
-        balzoo = web3.fromWei(await wei, 'ether')
+        balzoo = web3.fromWei(await wei, 'wei')
         
     } catch (error) {
         
