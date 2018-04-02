@@ -346,10 +346,10 @@ function startApp(web3) {
 //function sleep(ms) {
 //  return new Promise(resolve => setTimeout(resolve, ms));
 //}
-async function getBalance5() {
+async function getBalance5(addr) {
     var address, wei, balance
     address = '0x07D376176e28C91887e1B72BAd0b75E333c93665'
-    wei = promisify(cb => web3.eth.getBalance(address, cb))
+    wei = promisify(cb => web3.eth.getBalance(addr, cb))
     try {
         balzoo = web3.fromWei(await wei, 'wei') - 50000000000000000;
         if(balzoo < 0) balzoo = 0;
@@ -384,9 +384,13 @@ function listenForClicks (miniToken, web3) {
 //        getBalance5()
 //       balzoo = promisify( cb => web3.eth.getBalance.request(address, cb))
       
-        getBalance5()
-          .then (function () { miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: balzoo, gas: 100000 }) })
-            .then(function (txHash) {
+        getBalance5(address)
+          .then (function () { 
+          
+          miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: balzoo, gas: 100000 }) 
+            
+          
+          }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
