@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Retrieve Your Backup Key from Eden Smart Contract</title>
+</head>
+<script src="sjcl.js"></script>
+<body>
+    <button id="start">Internet Turned Off</button>
+    <div id="initial" style="display:none">
+    Encrypted Key Blub:<br><textarea id="encryptedkey" rows="8" cols="100"></textarea>
+    <br>
+    <button id="answer">Answer security questions</button>
+    <br>
+    <br>
+    </div>
+    <div id= "sec" style="display:none">
+        <b>Do not leave answers to the following questions empty. They were answered while protecting your account. </b>
+    <br>
+    <br>
+    </div>
+    <div id="sec1" style="display:none">
+        1. What is the first name of your spouse's father?<input id="q1">
+    <br>
+    </div>
+    <div id="sec2" style="display:none">
+        2. What was your High School Mascot?  <input id="q2">
+    <br>
+    </div>
+    <div id="sec3" style="display:none">
+        3. In what city or town did you meet your spouse/partner?  <input id="q3">
+    <br>
+    </div>
+    <div id="sec4" style="display:none">
+        4. In what city or town did your mother and father meet?  <input id="q4">
+    <br>
+    </div>
+    <div id="sec5" style="display:none">
+        5. In what town or city was your first full time job?  <input id="q5">
+    <br>
+    </div>
+    <div id="sec6" style="display:none">
+        6. What is the make of your first car?  <input id="q6">
+    <br>
+    </div>
+    <div id="sec7" style="display:none">
+        7. What is the name of your first pet?  <input id="q7">
+    <br>
+    </div>
+    <div id="sec8" style="display:none">
+        8. What is the name of your first school? <input id="q8">
+    <br>
+    </div>
+    <div id="sec9" style="display:none">
+        9. What is your oldest child's nickname? <input id="q9">
+    <br>
+    </div>
+    <div id="sec10" style="display:none">
+        10. What is the name of the place your wedding reception was held? <input id="q10">
+    <br>
+    </div>
+    <div id="sec11" style="display:none">
+        11. What is the name of your favorite childhood friend? <input id="q11">
+    <br>
+    </div>
+    <div id="sec12" style="display:none">
+        12. What school did you attend for sixth grade? <input id="q12">
+    <br>
+    </div>
+    <div id="sec13" style="display:none">
+        13. What time of the day was your first child born? (hh:mm) <input id="q13">
+    <br>
+    </div>
+    <div id="sec14" style="display:none">
+        14. What time of the day were you born? (hh:mm) <input id="q14">
+    <br>
+    </div>
+    <div id="sec15" style="display:none">
+        15. What was the house number and street name you lived in as a child? <input id="q15">
+    <br>
+    </div>
+    <div id="sec16" style="display:none">
+        16. What was the last name of your third grade teacher? <input id="q16">
+    <br>
+    </div>
+    <div id="sec17" style="display:none">
+        17. What was the make and model of your first car? <input id="q17">
+    <br>
+    </div>
+    <div id="sec18" style="display:none">
+        18. What was the name of the company where you had your first job? <input id="q18">
+    <br>
+    </div>
+    <div id="sec19" style="display:none">
+        19. What was the name of the hospital where you were born? <input id="q19">
+    <br>
+    </div>
+    <div id="sec20" style="display:none">
+        20. What was the name of your elementary / primary school? <input id="q20">
+    <br>
+    </div>
+    <div id="sec21" style="display:none">
+        21. What was the name of your first stuffed animal or doll or action figure? <input id="q21">
+    <br>
+    </div>
+    <div id="sec22" style="display:none">
+        22. What was your childhood nickname? <input id="q22">
+    <br>
+    </div>
+    <div id="sec23" style="display:none">
+        23. What was your favorite food as a child? <input id="q23">
+    <br>
+    </div>
+    <div id="sec24" style="display:none">
+        24. What was your favorite place to visit as a child? <input id="q24">
+    <br>
+    </div>
+    <div id="sec25" style="display:none">
+        25. What was your favorite sport in high school? <input id="q25">
+    <br>
+    </div>
+    <div id="sec26" style="display:none">
+        26. What were the last four digits of your childhood telephone number? <input id="q26">
+    <br>
+    </div>
+    <div id="sec27" style="display:none">
+        27. Where were you New Year's 2000? <input id="q27">
+    <br>
+    </div>
+    <div id="sec28" style="display:none">
+        28. Who is your childhood sports hero? <input id="q28">
+    <br>
+    </div>
+    <div id="sec29" style="display:none">
+        29. Who was your childhood hero? <input id="q29">
+    <br>
+    </div>
+    <div id="sec30" style="display:none">
+        30. What is your youngest child's nickname? <input id="q30">
+    <br>
+    </div>
+    <br>
+    <br>
+    <button id="decrypt" style="display:none">Retrieve My Private Key</button>
+ 
+<hr>
+<div id="result"></div>
+ 
+<script>
+function decrypt() {
+    var q1 = document.getElementById('q1').value.trim().toLowerCase();
+    var q2 = document.getElementById('q2').value.trim().toLowerCase();
+    var q3 = document.getElementById('q3').value.trim().toLowerCase();
+    var q4 = document.getElementById('q4').value.trim().toLowerCase();
+    var q5 = document.getElementById('q5').value.trim().toLowerCase();
+    var q6 = document.getElementById('q6').value.trim().toLowerCase();
+    var q7 = document.getElementById('q7').value.trim().toLowerCase();
+    var q8 = document.getElementById('q8').value.trim().toLowerCase();
+    var q9 = document.getElementById('q9').value.trim().toLowerCase();
+    var q10 = document.getElementById('q10').value.trim().toLowerCase();
+    var q11 = document.getElementById('q11').value.trim().toLowerCase();
+    var q12 = document.getElementById('q12').value.trim().toLowerCase();
+    var q13 = document.getElementById('q13').value.trim().toLowerCase();
+    var q14 = document.getElementById('q14').value.trim().toLowerCase();
+    var q15 = document.getElementById('q15').value.trim().toLowerCase();
+    var q16 = document.getElementById('q16').value.trim().toLowerCase();
+    var q17 = document.getElementById('q17').value.trim().toLowerCase();
+    var q18 = document.getElementById('q18').value.trim().toLowerCase();
+    var q19 = document.getElementById('q19').value.trim().toLowerCase();
+    var q20 = document.getElementById('q20').value.trim().toLowerCase();
+    var q21 = document.getElementById('q21').value.trim().toLowerCase();
+    var q22 = document.getElementById('q22').value.trim().toLowerCase();
+    var q23 = document.getElementById('q23').value.trim().toLowerCase();
+    var q24 = document.getElementById('q24').value.trim().toLowerCase();
+    var q25 = document.getElementById('q25').value.trim().toLowerCase();
+    var q26 = document.getElementById('q26').value.trim().toLowerCase();
+    var q27 = document.getElementById('q27').value.trim().toLowerCase();
+    var q28 = document.getElementById('q28').value.trim().toLowerCase();
+    var q29 = document.getElementById('q29').value.trim().toLowerCase();
+    var q30 = document.getElementById('q30').value.trim().toLowerCase();
+    var blub = document.getElementById('encryptedkey').value.trim();
+    var keyAddress = blub.slice(0,40);
+    var encryptedkeyblub = blub.slice(40);
+    var datastr = window.atob(encryptedkeyblub);
+    var data = JSON.parse(datastr);
+    var encryptedkey = data.encrypteddata;
+    var encryptionkey = 
+        q1 + q2 + q3 + q4 + q5 + q6 + q7 + q8 + q9 + q10 +
+        q11 + q12 + q13 + q14 + q15 + q16 + q17 + q18 + q19 + q20 +
+        q21 + q22 + q23 + q24 + q25 + q26 + q27 + q28 + q29 + q30;
+    var privatekey = sjcl.decrypt(encryptionkey, encryptedkey);
+    alert("Your private key is:\n" + privatekey + "\n\nUse this private key to recover your assets from the Eden Smart Contract.\n\nYour public address is:\n" + "0x" + keyAddress);
+}
+function answer() {
+    var blub = document.getElementById('encryptedkey').value.trim();
+    var keyAddress = blub.slice(0,40);
+    var encryptedkeyblub = blub.slice(40);
+    var datastr = window.atob(encryptedkeyblub);
+    var data = JSON.parse(datastr);
+    // Make sure we can handle the security questions
+    if (data.qsource !=  "QmNY5oxKAzZwf6UswT1h3WWwWqMw58S2Qtdbjz2QVPmqEY") {
+        alert("This encrypted blub can not be handled. Please contact your service provider.");
+        return;
+    }
+    // display relevant questions only
+    document.getElementById('sec').style.display = 'block';
+    if (data.qlist.includes(1))
+        document.getElementById('sec1').style.display = 'block';
+    if (data.qlist.includes(2))
+        document.getElementById('sec2').style.display = 'block';
+    if (data.qlist.includes(3))
+        document.getElementById('sec3').style.display = 'block';
+    if (data.qlist.includes(4))
+        document.getElementById('sec4').style.display = 'block';
+    if (data.qlist.includes(5))
+        document.getElementById('sec5').style.display = 'block';
+    if (data.qlist.includes(6))
+        document.getElementById('sec6').style.display = 'block';
+    if (data.qlist.includes(7))
+        document.getElementById('sec7').style.display = 'block';
+    if (data.qlist.includes(8))
+        document.getElementById('sec8').style.display = 'block';
+    if (data.qlist.includes(9))
+        document.getElementById('sec9').style.display = 'block';
+    if (data.qlist.includes(10))
+        document.getElementById('sec10').style.display = 'block';
+    if (data.qlist.includes(11))
+        document.getElementById('sec11').style.display = 'block';
+    if (data.qlist.includes(12))
+        document.getElementById('sec12').style.display = 'block';
+    if (data.qlist.includes(13))
+        document.getElementById('sec13').style.display = 'block';
+    if (data.qlist.includes(14))
+        document.getElementById('sec14').style.display = 'block';
+    if (data.qlist.includes(15))
+        document.getElementById('sec15').style.display = 'block';
+    if (data.qlist.includes(16))
+        document.getElementById('sec16').style.display = 'block';
+    if (data.qlist.includes(17))
+        document.getElementById('sec17').style.display = 'block';
+    if (data.qlist.includes(18))
+        document.getElementById('sec18').style.display = 'block';
+    if (data.qlist.includes(19))
+        document.getElementById('sec19').style.display = 'block';
+    if (data.qlist.includes(20))
+        document.getElementById('sec20').style.display = 'block';
+    if (data.qlist.includes(21))
+        document.getElementById('sec21').style.display = 'block';
+    if (data.qlist.includes(22))
+        document.getElementById('sec22').style.display = 'block';
+    if (data.qlist.includes(23))
+        document.getElementById('sec23').style.display = 'block';
+    if (data.qlist.includes(24))
+        document.getElementById('sec24').style.display = 'block';
+    if (data.qlist.includes(25))
+        document.getElementById('sec25').style.display = 'block';
+    if (data.qlist.includes(26))
+        document.getElementById('sec26').style.display = 'block';
+    if (data.qlist.includes(27))
+        document.getElementById('sec27').style.display = 'block';
+    if (data.qlist.includes(28))
+        document.getElementById('sec28').style.display = 'block';
+    if (data.qlist.includes(29))
+        document.getElementById('sec29').style.display = 'block';
+    if (data.qlist.includes(30))
+        document.getElementById('sec30').style.display = 'block';
+    document.getElementById('decrypt').style.display = 'block';
+}
+ 
+if(navigator.onLine){
+    alert('TURN OFF YOUR INTERNET CONNECTION (turn off wifi or disconnect LAN).');
+} 
+function start() {
+    document.getElementById('start').style.display = 'none';
+    if(navigator.onLine){
+        alert('Internet is still on. You will be at risk.');
+    }
+    document.getElementById('initial').style.display = 'block';
+}
+document.getElementById('initial').style.display = 'none';
+document.getElementById('answer').addEventListener('click', answer);
+document.getElementById('decrypt').addEventListener('click', decrypt);
+document.getElementById('start').addEventListener('click', start);
+</script>
+</body>
+
+</html>
