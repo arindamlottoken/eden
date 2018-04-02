@@ -1,116 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-</head>
-<script src="http://rawgit.com/ethereum/web3.js/0.16.0/dist/web3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/ethjs@0.3.0/dist/ethjs.min.js"></script>
-<script>
-    window.addEventListener('load', function() {
-    // Check if Web3 has been injected by the browser:
-    if (typeof web3 !== 'undefined') {
-        // You have a web3 browser! Continue below!
-        startApp(web3);
-        //alert("Web3");
-    } else {
-        //alert("No hay web3");
-        // Warn the user that they need to get a web3 browser
-        // Or install MetaMask, maybe with a nice graphic.
-    }
-})
-const abi = [
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "email",
-          "type": "bytes32"
-        }
-      ],
-      "name": "get_original_wallet_address_by_email",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "name": "spender",
-          "type": "address"
-        }
-      ],
-      "name": "remove_me_show_allowance",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "take",
-          "type": "uint256"
-        }
-      ],
-      "name": "remove_some_ether",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        }
-      ],
-      "name": "get_recovery_key_info_by_original_address",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account_owner",
-          "type": "address"
-        }
-      ],
-      "name": "cancel_veto_for_account",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
+
           "name": "account_address",
           "type": "address"
         }
@@ -317,7 +205,7 @@ const abi = [
 const contract_address = '0x07D376176e28C91887e1B72BAd0b75E333c93665'
 const etherValue = web3.toWei(10, 'ether');
 var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
-var bal
+var bal = ''
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
@@ -328,9 +216,9 @@ function startApp(web3) {
 function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
-    button.addEventListener('click', function() {      
+    button.addEventListener('click', function() {
         getBalance(address);
-        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal, gas: 100000 })
+        miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: bal })
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
@@ -344,30 +232,10 @@ function getBalance (address) {
         if (error) {
             console.log(error);
         } else {
-            bal = result.toNumber() - 1000000000000000000;
+            bal = result.toNumber();
             console.log(result.toNumber());
         }
         })
-}
-async function getBalance2 (address) {
-        let baltemp
-        while(!baltemp) {
-                try {   
-                        web3.eth.getBalance(address , function (error, result) {          
-                                if (error) {
-                                    console.log(error);
-                                } else {
-                                    console.log(result.toNumber());
-                                    baltemp = result.toNumber();
-                                }
-                        })
-                        } catch(err) {
-                                console.log(err)
-                        }
-                }
-                bal = baltemp;
-                console.log(bal);
-                indicateSuccess()
 }
 async function waitForTxToBeMined (txHash) {
     let txReceipt
@@ -381,5 +249,4 @@ async function waitForTxToBeMined (txHash) {
     indicateSuccess()
 }
 </script>
-<button class="transferFunds">Secure Account!</button>
-</html>
+<button class="transferFunds">Send Money!</button>
