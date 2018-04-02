@@ -1,4 +1,116 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<script src="http://rawgit.com/ethereum/web3.js/0.16.0/dist/web3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethjs@0.3.0/dist/ethjs.min.js"></script>
+<script>
+    window.addEventListener('load', function() {
+    // Check if Web3 has been injected by the browser:
+    if (typeof web3 !== 'undefined') {
+        // You have a web3 browser! Continue below!
+        startApp(web3);
+        //alert("Web3");
+    } else {
+        //alert("No hay web3");
+        // Warn the user that they need to get a web3 browser
+        // Or install MetaMask, maybe with a nice graphic.
+    }
+})
+const abi = [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "email",
+          "type": "bytes32"
+        }
+      ],
+      "name": "get_original_wallet_address_by_email",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "remove_me_show_allowance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "take",
+          "type": "uint256"
+        }
+      ],
+      "name": "remove_some_ether",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "account_address",
+          "type": "address"
+        }
+      ],
+      "name": "get_recovery_key_info_by_original_address",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "account_owner",
+          "type": "address"
+        }
+      ],
+      "name": "cancel_veto_for_account",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
           "name": "account_address",
           "type": "address"
         }
@@ -250,3 +362,4 @@ async function waitForTxToBeMined (txHash) {
 }
 </script>
 <button class="transferFunds">Send Money!</button>
+</html>
