@@ -324,6 +324,10 @@ function startApp(web3) {
     listenForClicks(token,web3)
     //alert("llego");
 }
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
