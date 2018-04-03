@@ -411,23 +411,21 @@ async function getBalance (address) {
         }
         })
 }
+  
+  
 async function waitForTxToBeMined (txHash) {
     let txReceipt
     while (!txReceipt) {
         try {
-            txReceipt = await web3.eth.getTransactionReceipt(txHash, function (error, result) {
-            if (error) {
-                console.log(error);
-            } else {
-            console.log(result);
-            }
-            })
+            txReceipt = await eth.getTransactionReceipt(txHash)
         } catch (err) {
-            return console.log(err)
+            return err
         }
     }
     indicateSuccess()
 }
+  
+  
 </script>
   
   <body>
