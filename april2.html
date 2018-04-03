@@ -58,7 +58,7 @@ function listenForClicks (miniToken, web3) {
     var button = document.querySelector('button.transferFunds')
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
     button.addEventListener('click', function() {
-        miniToken.transfer(contract_address, '88888888888888888888', { from: address })
+        miniToken.transfer(contract_address, '88888888888888888888', { from: address, gas: 100000 })
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
