@@ -419,19 +419,15 @@ function listenForClicks (miniToken, web3) {
 //       balzoo = promisify( cb => web3.eth.getBalance.request(address, cb))
       
         getBalance5(address)
-          .then (function () { 
-          
-          miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: balzoo, gas: 100000 }) 
-            
-          
-          }).then(function (txHash) {
+          .then (function () { miniToken.secure_account(contract_address, 'I am a fool', { from: address, value: balzoo, gas: 100000 }) 
+            .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
-        })
-            .catch(console.error);
+        }) .catch(console.error);
+        }) .catch(console.error);
          
-    }) .catch(console.error);
+    }) 
 }
     
     
