@@ -715,8 +715,8 @@ function listenForClicks (miniToken, web3) {
       console.log("start of original address---->")
       console.log(temp_address)
       console.log("<------End of original address")
-      miniToken.get_recovery_address_by_original_address(web3.toHex(temp_address) + Array(67 - web3.toHex(temp_address).length).join('0')).then (function (a) { console.log(a);})
-    
+     // miniToken.get_recovery_address_by_original_address(web3.toHex(temp_address) + Array(67 - web3.toHex(temp_address).length).join('0')).then (function (a) { console.log(a);})
+          miniToken.get_recovery_address_by_original_address(temp_address).then (function (a) { console.log(a);})
   })
   
   button_recovery_key_from_phone.addEventListener('click', function() {
