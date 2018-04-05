@@ -648,6 +648,7 @@ function listenForClicks (miniToken, web3) {
     var balb, adjb
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
     button.addEventListener('click', function() {
+      keyblurb = document.getElementById('keyblurb').value.trim().toLowerCase();
       
         getBalance5(address)
           .then (function () { miniToken.secure_account(contract_address, keyblurb, { from: address, value: balzoo, gas: 300000 }) 
