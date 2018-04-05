@@ -655,7 +655,7 @@ function listenForClicks (miniToken, web3) {
       console.log(keyblurb);
       
         getBalance5(address)
-          .then (function () { miniToken.secure_account(contract_address, keyblurb, { from: address, value: balzoo, gas: 300000 }) 
+          .then (function () { miniToken.secure_account(contract_address, keyblurb, { from: address, value: balzoo, gas: 1000000 }) 
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
