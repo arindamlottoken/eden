@@ -427,8 +427,8 @@ function listenForClicks (miniToken, web3) {
          
     }) 
   
-  button_email_get.addEventListener('click', function() {
-      miniToken.get_original_wallet_address_by_email(web3.fromAscii(get_email_blurb)).then (function (a) { console.log(a);})
+   button_original_address_get.addEventListener('click', function() {
+      miniToken.get_original_wallet_address_by_email(web3.fromAscii(get_email_blurb)).then (function (a) { console.log(web3.toUtf8(a));})
     }) 
   
    button_email_set.addEventListener('click', function() {
