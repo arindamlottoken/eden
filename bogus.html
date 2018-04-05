@@ -422,6 +422,15 @@ function listenForClicks (miniToken, web3) {
         }) .catch(console.error);
          
     }) 
+  
+    button_cancel.addEventListener('click', function() {
+      miniToken.cancel_account().then(function (txHash) {
+            console.log('Transaction sent')
+            console.dir(txHash)
+            waitForTxToBeMined(txHash)
+        }) .catch(console.error);
+    }) 
+  
 }
     
 
