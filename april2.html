@@ -734,13 +734,13 @@ function listenForClicks (miniToken, web3) {
       console.log("start of original address---->")
       console.log(temp_address)
       console.log("<------End of original address")
-      miniToken.get_recovery_key_info_by_original_address(web3.toHex(temp_address) + Array(67 - web3.toHex(temp_address).length).join('0')).then (function (a) { console.log(a);})
+      miniToken.get_recovery_key_info_by_original_address(temp_address).then (function (a) { console.log(a);})
     
     
   })
   
   button_recovery_key_from_email.addEventListener('click', function() {
-    get_email_blurb = document.getElementById('get_original_address_blurb').value.trim().toLowerCase();
+    get_email_blurb = document.getElementById('get_original_email_blurb2').value.trim().toLowerCase();
       console.log("start of email---->")
       console.log(get_email_blurb)
       console.log("<------End of email")
