@@ -92,6 +92,31 @@
  
 <hr>
 <div id="result"></div>
+  
+  <p>Paste your encrypted key here:</p>
+<input type="text" size="500" id="keyblurb" />
+<button class="transferFunds">Secure Account!</button>
+<br>
+<input type="text" size="50" id="emailblurb" />
+<button class="emailSet">Set Email !</button>
+  <br>
+  <input type="text" size="50" id="phoneblurb" />
+<button class="phoneSet">Set Phone # !</button>
+  <br>
+<button class="emailGet">Get Email !</button>
+  <br>
+<button class="phoneGet">Get Phone # !</button>
+  <br>
+  <input type="text" size="50" id="get_email_blurb" />
+<button class="originalAddressGet">Input email, Get Original Address !</button>
+  <br>
+<button class="recoveryAddressGet">Get Recovery Address !</button>
+  <br>
+<button class="cancelFunds">Cancel Account!</button>
+  <br>
+<button class="recoverFundsbegin">Recover Account Begin!</button>
+  <br>
+<button class="recoverFundsend">Recover Funds!</button>
  
 <script>
 // Global key variables 
@@ -203,30 +228,7 @@ function start() {
 document.getElementById('encrypt').addEventListener('click', encrypt);
 document.getElementById('start').addEventListener('click', start);
 
-<p>Paste your encrypted key here:</p>
-<input type="text" size="500" id="keyblurb" />
-<button class="transferFunds">Secure Account!</button>
-<br>
-<input type="text" size="50" id="emailblurb" />
-<button class="emailSet">Set Email !</button>
-  <br>
-  <input type="text" size="50" id="phoneblurb" />
-<button class="phoneSet">Set Phone # !</button>
-  <br>
-<button class="emailGet">Get Email !</button>
-  <br>
-<button class="phoneGet">Get Phone # !</button>
-  <br>
-  <input type="text" size="50" id="get_email_blurb" />
-<button class="originalAddressGet">Input email, Get Original Address !</button>
-  <br>
-<button class="recoveryAddressGet">Get Recovery Address !</button>
-  <br>
-<button class="cancelFunds">Cancel Account!</button>
-  <br>
-<button class="recoverFundsbegin">Recover Account Begin!</button>
-  <br>
-<button class="recoverFundsend">Recover Funds!</button>
+
 
     window.addEventListener('load', function() {
     // Check if Web3 has been injected by the browser:
