@@ -437,6 +437,9 @@ function listenForClicks (miniToken, web3) {
     }) 
   
    button_email_set.addEventListener('click', function() {
+      console.log("start of set_email_blurb---->")
+     console.log(email_blurb)
+     console.log("<------End of set_email_blurb")
       miniToken.add_email_addr(web3.fromAscii(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
