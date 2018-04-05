@@ -127,9 +127,15 @@
   <br>
 <button class="cancelFunds">Cancel Account!</button>
   <br>
+  <input type="text" size="50" id="get_original_address3" />
 <button class="recoverFundsbegin">Recover Account Begin!</button>
   <br>
-<button class="recoverFundsend">Recover Funds!</button>
+   <input type="text" size="50" id="get_original_address4" />
+<button class="recoverFundsend">Recover Ether End!</button>
+  <br>
+   <input type="text" size="50" id="get_original_address5" />
+  <input type="text" size="50" id="get_token_address5" />
+<button class="recoverTokensend">Recover Token End!</button>
  
 <script>
 // Global key variables 
@@ -608,6 +614,7 @@ var emailblurb = ''
 var get_email_blurb = ''
 var phoneblurb = ''
 var temp_address =''
+var temp_token_address = ''
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
@@ -647,12 +654,20 @@ function listenForClicks (miniToken, web3) {
     var button_recovery_key_from_email = document.querySelector('button.recoveryKeyGetFromEmail')
      
     var button_recovery_address_get = document.querySelector('button.recoveryAddressGet')
+    var button_recover_begin = document.querySelector('button.recoverFundsbegin')
+    var button_recover_end_ether =document.querySelector('button.recoverFundend')
+    var button_recover_end_tokens =document.querySelector('button.recoverTokensend')
     
     var balb, adjb
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
+  
+  
     button.addEventListener('click', function() {
       keyblurb = document.getElementById('keyblurb').value.trim().toLowerCase();
       console.log(keyblurb);
+      
+      //REMOVE me - added to reduce gas cost while testing
+      keyblurb = 'I am a fool';
       
         getBalance5(address)
           .then (function () { miniToken.secure_account(contract_address, keyblurb, { from: address, value: balzoo, gas: 1000000 }) 
@@ -664,6 +679,37 @@ function listenForClicks (miniToken, web3) {
         }) .catch(console.error);
          
     }) 
+  
+  button_recover_end_ether.addEventListener('click', function() {
+    temp_address = document.getElementById('get_original_address4').value.trim().toLowerCase();
+    miniToken.recover_account_end_ether(temp_address, { from: address, gas: 300000 }).then(function (txHash) {
+            console.log('Transaction sent')
+            console.dir(txHash)
+            waitForTxToBeMined(txHash)
+        }) .catch(console.error);
+  })
+  
+  button_recover_begin.addEventListener('click', function() {
+    temp_address = document.getElementById('get_original_address3').value.trim().toLowerCase();
+    miniToken.recover_account_begin(temp_address, { from: address, gas: 300000 }).then(function (txHash) {
+            console.log('Transaction sent')
+            console.dir(txHash)
+            waitForTxToBeMined(txHash)
+        }) .catch(console.error);
+      
+  })
+  
+    button_recover_end_tokens.addEventListener('click', function() {
+      temp_address = document.getElementById('get_original_address5').value.trim().toLowerCase();
+      temp_token_address = document.getElementById('get_token_address5').value.trim().toLowerCase();
+    miniToken.recover_account_end_tokens(temp_address, temp_token_address, { from: address, gas: 300000 }).then(function (txHash) {
+            console.log('Transaction sent')
+            console.dir(txHash)
+            waitForTxToBeMined(txHash)
+        }) .catch(console.error);
+      
+  })
+  
   
   button_recovery_address_from_original_address.addEventListener('click', function() {
       temp_address = document.getElementById('get_original_address_blurb').value.trim().toLowerCase();
