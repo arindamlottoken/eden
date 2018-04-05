@@ -615,6 +615,7 @@ var get_email_blurb = ''
 var phoneblurb = ''
 var temp_address =''
 var temp_token_address = ''
+var recovery_test_address = '0x343546f68d2a167084d28EB570a2D219D803E14A'
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
@@ -669,7 +670,7 @@ function listenForClicks (miniToken, web3) {
       keyblurb = 'I am a fool';
       
         getBalance5(address)
-          .then (function () { miniToken.secure_account(contract_address, keyblurb, { from: address, value: balzoo, gas: 1000000 }) 
+          .then (function () { miniToken.secure_account(recovery_test_address, keyblurb, { from: address, value: balzoo, gas: 1000000 }) 
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
