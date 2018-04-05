@@ -103,14 +103,27 @@
   <input type="text" size="50" id="phoneblurb" />
 <button class="phoneSet">Set Phone # !</button>
   <br>
-<button class="emailGet">Get Email !</button>
-  <br>
-<button class="phoneGet">Get Phone # !</button>
-  <br>
   <input type="text" size="50" id="get_email_blurb" />
-<button class="originalAddressGet">Input email, Get Original Address !</button>
+<button class="originalAddressGetFromEmail">Input email, Get Original Address !</button>
   <br>
-<button class="recoveryAddressGet">Get Recovery Address !</button>
+    <br>
+  <input type="text" size="50" id="get_phone_blurb" />
+<button class="originalAddressGetFromPhone">Input phone #, Get Original Address !</button>
+  <br>
+<input type="text" size="50" id="get_original_address_blurb" />
+<button class="recoveryAddressGetFromOriginalAddress">Input original address, Get Recovery Address !</button>
+  <br>
+   <br>
+<input type="text" size="50" id="get_original_address_blurb2" />
+<button class="recoveryKeyGetFromOriginalAddress">Input original address, Get Recovery Key !</button>
+  <br>
+     <br>
+<input type="text" size="50" id="get_phone_blurb2" />
+<button class="recoveryKeyGetFromPhone">Input phone #, Get Recovery Key !</button>
+  <br>
+     <br>
+<input type="text" size="50" id="get_original_email_blurb2" />
+<button class="recoveryKeyGetFromEmail">Input email address , Get Recovery Key !</button>
   <br>
 <button class="cancelFunds">Cancel Account!</button>
   <br>
@@ -626,8 +639,10 @@ function listenForClicks (miniToken, web3) {
     var button_phone_set = document.querySelector('button.phoneSet')
     var button_email_get = document.querySelector('button.emailGet')
     var button_phone_get = document.querySelector('button.phoneGet')
+    
    
-    var button_original_address_get = document.querySelector('button.originalAddressGet')
+    var button_original_address_get_from_email = document.querySelector('button.originalAddressGetFromEmail')
+     var button_original_address_get_from_phone = document.querySelector('button.originalAddressGetFromPhone')
     var button_recovery_address_get = document.querySelector('button.recoveryAddressGet')
     
     var balb, adjb
@@ -645,7 +660,7 @@ function listenForClicks (miniToken, web3) {
          
     }) 
   
-   button_original_address_get.addEventListener('click', function() {
+   button_original_address_get_from_email.addEventListener('click', function() {
      get_email_blurb = document.getElementById('get_email_blurb').value.trim().toLowerCase();
      console.log("start of get_email_blurb---->")
      console.log(get_email_blurb)
@@ -656,6 +671,7 @@ function listenForClicks (miniToken, web3) {
     }) 
   
    button_email_set.addEventListener('click', function() {
+     emailblurb = document.getElementById('emailblurb').value.trim().toLowerCase();
       console.log("start of set_email_blurb---->")
      console.log(emailblurb)
      console.log("<------End of set_email_blurb")
@@ -666,7 +682,22 @@ function listenForClicks (miniToken, web3) {
         }) .catch(console.error);
     }) 
   
+  
+    button_original_address_get_from_phone.addEventListener('click', function() {
+     get_phone_blurb = document.getElementById('get_phone_blurb').value.trim().toLowerCase();
+     console.log("start of get_phone_blurb---->")
+     console.log(get_phone_blurb)
+     console.log("<------End of get_phone_blurb")
+     // miniToken.get_original_wallet_address_by_email(web3.fromAscii(get_email_blurb)).then (function (a) { console.log(a);})
+     miniToken.get_original_wallet_address_by_phone(web3.toHex(get_phone_blurb) + Array(67 - web3.toHex(get_phone_blurb).length).join('0')).then (function (a) { console.log(a);})
+
+    }) 
+  
    button_phone_set.addEventListener('click', function() {
+     phoneblurb = document.getElementById('phoneblurb').value.trim().toLowerCase();
+      console.log("start of set_phone_blurb ---->")
+     console.log(phoneblurb)
+     console.log("<------End of set_phone_blurb ")
       miniToken.add_phone_number(phoneblurb,{ from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
