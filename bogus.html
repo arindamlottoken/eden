@@ -428,11 +428,11 @@ function listenForClicks (miniToken, web3) {
     }) 
   
   button_email_get.addEventListener('click', function() {
-      miniToken.get_original_wallet_address_by_email(web3.utils.asciiToHex(get_email_blurb)).then (function (a) { console.log(a);})
+      miniToken.get_original_wallet_address_by_email(web3.toUtf8(get_email_blurb)).then (function (a) { console.log(a);})
     }) 
   
    button_email_set.addEventListener('click', function() {
-      miniToken.add_email_addr(web3.utils.asciiToHex(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
+      miniToken.add_email_addr(web3.utils.fromAscii(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
