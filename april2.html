@@ -607,6 +607,7 @@ var keyblurb = ''
 var emailblurb = ''
 var get_email_blurb = ''
 var phoneblurb = ''
+var temp_address =''
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
@@ -638,12 +639,13 @@ function listenForClicks (miniToken, web3) {
     var button_recover_end = document.querySelector('button.recoverFundsend')
     var button_email_set = document.querySelector('button.emailSet')
     var button_phone_set = document.querySelector('button.phoneSet')
-    var button_email_get = document.querySelector('button.emailGet')
-    var button_phone_get = document.querySelector('button.phoneGet')
-    
-   
     var button_original_address_get_from_email = document.querySelector('button.originalAddressGetFromEmail')
-     var button_original_address_get_from_phone = document.querySelector('button.originalAddressGetFromPhone')
+    var button_original_address_get_from_phone = document.querySelector('button.originalAddressGetFromPhone')
+    var button_recovery_address_from_original_address = document.querySelector('button.recoveryAddressGetFromOriginalAddress')
+    var button_recovery_key_from_phone = document.querySelector('button.recoveryKeyGetFromPhone')
+    var button_recovery_key_from_original_address = document.querySelector('button.recoveryKeyGetFromOriginalAddress')
+    var button_recovery_key_from_email = document.querySelector('button.recoveryKeyGetFromEmail')
+     
     var button_recovery_address_get = document.querySelector('button.recoveryAddressGet')
     
     var balb, adjb
@@ -661,6 +663,45 @@ function listenForClicks (miniToken, web3) {
         }) .catch(console.error);
          
     }) 
+  
+  button_recovery_address_from_original_address.addEventListener('click', function() {
+      temp_address = document.getElementById('get_original_address_blurb').value.trim().toLowerCase();
+      console.log("start of original address---->")
+      console.log(temp_address)
+      console.log("<------End of original address")
+      miniToken.get_recovery_address_by_original_address(web3.toHex(temp_address) + Array(67 - web3.toHex(temp_address).length).join('0')).then (function (a) { console.log(a);})
+    
+  })
+  
+  button_recovery_key_from_phone.addEventListener('click', function() {
+    get_phone_blurb = document.getElementById('get_phone_blurb2').value.trim().toLowerCase();
+      console.log("start of phone---->")
+      console.log(get_phone_blurb)
+      console.log("<------End of phone")
+      miniToken.get_recovery_key_info_by_phone(web3.toHex(get_phone_blurb) + Array(67 - web3.toHex(get_phone_blurb).length).join('0')).then (function (a) { console.log(a);})
+    
+    
+  })
+  
+  button_recovery_key_from_original_address.addEventListener('click', function() {
+    temp_address = document.getElementById('get_original_address_blurb2').value.trim().toLowerCase();
+      console.log("start of original address---->")
+      console.log(temp_address)
+      console.log("<------End of original address")
+      miniToken.get_recovery_key_info_by_original_address(web3.toHex(temp_address) + Array(67 - web3.toHex(temp_address).length).join('0')).then (function (a) { console.log(a);})
+    
+    
+  })
+  
+  button_recovery_key_from_email.addEventListener('click', function() {
+    get_email_blurb = document.getElementById('get_original_address_blurb').value.trim().toLowerCase();
+      console.log("start of email---->")
+      console.log(get_email_blurb)
+      console.log("<------End of email")
+      miniToken.get_recovery_key_info_by_email(web3.toHex(get_email_blurb) + Array(67 - web3.toHex(get_email_blurb).length).join('0')).then (function (a) { console.log(a);})
+    
+    
+  })
   
    button_original_address_get_from_email.addEventListener('click', function() {
      get_email_blurb = document.getElementById('get_email_blurb').value.trim().toLowerCase();
