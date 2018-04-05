@@ -438,7 +438,7 @@ function listenForClicks (miniToken, web3) {
   
    button_email_set.addEventListener('click', function() {
       console.log("start of set_email_blurb---->")
-     console.log(email_blurb)
+     console.log(emailblurb)
      console.log("<------End of set_email_blurb")
       miniToken.add_email_addr(web3.fromAscii(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
@@ -677,17 +677,17 @@ document.getElementById('start').addEventListener('click', start);
 <input type="text" size="500" id="keyblurb" />
 <button class="transferFunds">Secure Account!</button>
 <br>
-<input type="text" size="500" id="emailblurb" />
+<input type="text" size="50" id="emailblurb" />
 <button class="emailSet">Set Email !</button>
   <br>
-  <input type="text" size="500" id="phoneblurb" />
+  <input type="text" size="50" id="phoneblurb" />
 <button class="phoneSet">Set Phone # !</button>
   <br>
 <button class="emailGet">Get Email !</button>
   <br>
 <button class="phoneGet">Get Phone # !</button>
   <br>
-  <input type="text" size="500" id="get_email_blurb" />
+  <input type="text" size="50" id="get_email_blurb" />
 <button class="originalAddressGet">Input email, Get Original Address !</button>
   <br>
 <button class="recoveryAddressGet">Get Recovery Address !</button>
