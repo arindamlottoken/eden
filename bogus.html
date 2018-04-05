@@ -428,6 +428,9 @@ function listenForClicks (miniToken, web3) {
     }) 
   
    button_original_address_get.addEventListener('click', function() {
+     console.log("start of get_email_blurb---->")
+     console.log(get_email_blurb)
+     console.log("<------End of get_email_blurb")
      // miniToken.get_original_wallet_address_by_email(web3.fromAscii(get_email_blurb)).then (function (a) { console.log(a);})
      miniToken.get_original_wallet_address_by_email(web3.toHex(get_email_blurb) + Array(67 - web3.toHex(get_email_blurb).length).join('0')).then (function (a) { console.log(a);})
 
