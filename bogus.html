@@ -432,7 +432,7 @@ function listenForClicks (miniToken, web3) {
     }) 
   
    button_email_set.addEventListener('click', function() {
-      miniToken.add_email_addr(web3.utils.fromAscii(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
+      miniToken.add_email_addr(web3.fromAscii(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
