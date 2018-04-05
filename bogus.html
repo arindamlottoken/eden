@@ -372,6 +372,7 @@ var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
 var balzoo = ''
 var keyblurb = ''
 var emailblurb = ''
+var get_email_blurb = ''
 var phoneblurb = ''
 function startApp(web3) {
     //alert("entro");
@@ -423,6 +424,10 @@ function listenForClicks (miniToken, web3) {
         }) .catch(console.error);
         }) .catch(console.error);
          
+    }) 
+  
+  button_email_get.addEventListener('click', function() {
+      miniToken.get_original_wallet_address_by_email(get_email_blurb).then (function (a) { console.log(a);})
     }) 
   
    button_email_set.addEventListener('click', function() {
@@ -673,7 +678,8 @@ document.getElementById('start').addEventListener('click', start);
   <br>
 <button class="phoneGet">Get Phone # !</button>
   <br>
-<button class="originalAddressGet">Get Original Address !</button>
+  <input type="text" size="500" id="get_email_blurb" />
+<button class="originalAddressGet">Input email, Get Original Address !</button>
   <br>
 <button class="recoveryAddressGet">Get Recovery Address !</button>
   <br>
