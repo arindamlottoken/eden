@@ -676,7 +676,7 @@ function listenForClicks (miniToken, web3) {
       console.log("start of set_email_blurb---->")
      console.log(emailblurb)
      console.log("<------End of set_email_blurb")
-      miniToken.add_email_addr(web3.fromAscii(emailblurb), { from: address, gas: 300000 }).then(function (txHash) {
+      miniToken.add_email_addr(web3.toHex(emailblurb) + Array(67 - web3.toHex(emailblurb).length).join('0')), { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
@@ -699,7 +699,7 @@ function listenForClicks (miniToken, web3) {
       console.log("start of set_phone_blurb ---->")
      console.log(phoneblurb)
      console.log("<------End of set_phone_blurb ")
-      miniToken.add_phone_number(phoneblurb,{ from: address, gas: 300000 }).then(function (txHash) {
+      miniToken.add_phone_number(web3.toHex(phoneblurb) + Array(67 - web3.toHex(phoneblurb).length).join('0')),{ from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
             waitForTxToBeMined(txHash)
