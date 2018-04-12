@@ -1115,7 +1115,7 @@ function approveTokens() {
   
 var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
 
-tokenContract.balanceOf.call(accountAddress, function (err, balance) { } );
+tokenContract.balanceOf.call(address, function (err, balance) { } );
 
 //var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
 
