@@ -1210,7 +1210,7 @@ const erc20_abi = [
 
 async function getBalance6() {
     var temp_tok_bal
-    temp_tok_bal = promisify(cb => token.balanceOf(address, cb))
+    temp_tok_bal = promisify(cb => tokenContract.balanceOf(address, cb))
   
    // temp_tok_bal = promisify( cb => tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) })
 
@@ -1242,8 +1242,11 @@ function approveTokens() {
   
 //getBalance6().then(function () { console.log(token_balance) }).catch(console.error)
   
-getBalance6().then(function () { console.log(toobie) }).catch(console.error)
+//getBalance6().then(function () { console.log(toobie) }).catch(console.error)
 
+getBalance6()
+console.log(toobie)
+  
  //tokenContract.balanceOf(address, (error, result) => {token_balance =  web3.toDecimal(result) })
  //console.log(token_balance)
   
