@@ -1094,6 +1094,18 @@ const erc20_abi = [
   },
 ]
 
+async function getBalance6(token, addr) {
+    var wei, balance
+    wei = promisify(cb => token.balanceOf(addr, cb))
+    try {
+        toobie = await wei;
+    } catch (error) {
+        
+    }
+}
+
+var toobie = ''
+  
 function approveTokens() {
 
   var dropdown = document.getElementById("test_select");
@@ -1102,17 +1114,20 @@ function approveTokens() {
   console.log(token_address);
   
 var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
-var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
+//var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
+
+getBalance6(tokenContract,address).then (function() { console.log('Getting balance') }) .catch(console.error);
+console.log(toobie)
 //console.log(balance)
-var decimal = tokenContract.decimals(function(err,res) {console.log(res);} )
+//var decimal = tokenContract.decimals(function(err,res) {console.log(res);} )
 //console.log(decimals)
-var adjustedBalance = balance / Math.pow(10, decimal)
+//var adjustedBalance = balance / Math.pow(10, decimal)
 //console.log(adjustedBalance)
-tokenContract.approve(contract_address,balance)
+//tokenContract.approve(contract_address,balance)
 
 
 //var tokenName = tokenContract.name()
-//var tokenSymbol = tokenContract.symbol()
+//var tokenSymbol = tokenContract.symbol() 
 
 }
   
