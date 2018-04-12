@@ -1227,7 +1227,7 @@ function approveTokens() {
   console.log("Approving token address");
   console.log(token_address);
   var token_balance = ''
-  var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
+  var tokenContract = web3.eth.contract(erc20_abi).at("token_address")
   tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) })
   console.log(token_balance)
 
