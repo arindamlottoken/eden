@@ -1217,8 +1217,10 @@ async function getBalance6(token, addr) {
         
     }
 }
-  
-  async function getBalance7() {
+ 
+
+const getBalance7 = async () => {  
+ 
     try {
         
        tokenContract.balanceOf(address, (error, result) => {token_balance = await web3.toDecimal(result) })
@@ -1270,7 +1272,9 @@ getBalance7().then(function () { console.log(token_balance) }).catch(console.err
 //var tokenSymbol = tokenContract.symbol() 
 
 }
-   
+
+
+
 </script>
 </body>
 
