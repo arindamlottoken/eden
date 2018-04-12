@@ -1219,7 +1219,13 @@ async function getBalance6(token, addr) {
 }
   
   async function getBalance7() {
-   tokenContract.balanceOf(address, (error, result) => {token_balance = await web3.toDecimal(result) })
+    try {
+        
+       tokenContract.balanceOf(address, (error, result) => {token_balance = await web3.toDecimal(result) })
+     
+    } catch (error) {
+        
+    }
 }
 
 var toobie = ''
