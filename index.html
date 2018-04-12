@@ -1223,7 +1223,7 @@ var token_address = ''
 var token_balance = ''
  var tokenContract
   
-function approveTokens() {
+async function approveTokens() {
 
   var dropdown = document.getElementById("test_select");
   token_address = dropdown.options[dropdown.selectedIndex].value;
