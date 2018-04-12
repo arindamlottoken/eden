@@ -1234,8 +1234,11 @@ function approveTokens() {
   
   //tokenContract = web3.eth.contract(erc20_abi).at('0x10fd19cB91f02487A14e5B4AE88147C5C2a09Fcc')
   
-  tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) }).then(function () { console.log(token_balance) }).catch(console.error); 
+ //tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) }).then(function () { console.log(token_balance) }).catch(console.error); 
 
+ tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) })
+ consonle.log(token_balance)
+  
 //tokenContract.balanceOf.call(address, function (err, balance) { } );
 
 //var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
