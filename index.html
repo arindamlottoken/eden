@@ -1038,13 +1038,81 @@ function recover() {
 document.getElementById('secure').addEventListener('click', start_secure_account);
 document.getElementById('recover').addEventListener('click', recover);
 
+const erc20_abi = [
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "name": "balance",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  }
+]
 
 function approveTokens() {
 
   var dropdown = document.getElementById("test_select");
-  var address = dropdown.options[dropdown.selectedIndex].value;
+  var token_address = dropdown.options[dropdown.selectedIndex].value;
   console.log("Approving token address");
-  console.log(address);
+  console.log(token_address);
+  
+var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
+var balance = tokenContract.balanceOf(address)
+console.log(balance)
+
+//var decimal = tokenContract.decimals()
+//var adjustedBalance = balance / Math.pow(10, decimal)
+//var tokenName = tokenContract.name()
+//var tokenSymbol = tokenContract.symbol()
 
 }
   
