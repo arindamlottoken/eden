@@ -123,7 +123,7 @@ PLEASE APPROVE YOUR ERC-20 TOKENS FOR RECOVERY
 <option value="3">my val 3</option>
 <option value="4">my val 4</option>
 </select>
-<input type="button" value="Approve" name="test_button" onclick="approveTokens(value);">
+<input type="button" value="Approve" name="test_button" onclick="approveTokens();">
 </form>
  
 <script>
@@ -1039,8 +1039,10 @@ document.getElementById('secure').addEventListener('click', start_secure_account
 document.getElementById('recover').addEventListener('click', recover);
 
 
-function approveTokens(address) {
+function approveTokens() {
 
+  var dropdown = document.getElementById("test_select");
+  var address = dropdown.options[dropdown.selectedIndex].value;
   console.log("Approving token address");
   console.log(address);
 
