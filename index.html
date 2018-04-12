@@ -1079,6 +1079,19 @@ const erc20_abi = [
     "payable": false,
     "type": "function"
   },
+    {
+    "constant": true,
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
 ]
 
 function approveTokens() {
@@ -1090,12 +1103,14 @@ function approveTokens() {
   
 var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
 var balance = tokenContract.balanceOf(address)
+console.log(balance)
+var decimal = tokenContract.decimals()
+console.log(decimals)
+var adjustedBalance = balance / Math.pow(10, decimal)
+console.log(adjustedBalance)
 tokenContract.approve(contract_address,balance)
 
-//var balance = tokenContract.balanceOf(address)
-//console.log(balance)
-//var decimal = tokenContract.decimals()
-//var adjustedBalance = balance / Math.pow(10, decimal)
+
 //var tokenName = tokenContract.name()
 //var tokenSymbol = tokenContract.symbol()
 
