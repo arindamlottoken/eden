@@ -1219,16 +1219,19 @@ async function getBalance6(token, addr) {
 }
 
 var toobie = ''
+var token_address = ''
+var token_balance = ''
+ var tokenContract
   
 function approveTokens() {
 
   var dropdown = document.getElementById("test_select");
-  var token_address = dropdown.options[dropdown.selectedIndex].value;
+  token_address = dropdown.options[dropdown.selectedIndex].value;
   console.log("Approving token address");
   console.log(token_address);
-  var token_balance = ''
+  
   //var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
-  var tokenContract = web3.eth.contract(erc20_abi).at('0x10fd19cB91f02487A14e5B4AE88147C5C2a09Fcc')
+  tokenContract = web3.eth.contract(erc20_abi).at('0x10fd19cB91f02487A14e5B4AE88147C5C2a09Fcc')
   tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) })
   console.log(token_balance)
 
