@@ -839,7 +839,7 @@ async function waitForTxToBeMined (txHash) {
     let txReceipt
     while (!txReceipt) {
         try {
-            txReceipt = await eth.getTransactionReceipt(txHash)
+            txReceipt = await web3.eth.getTransactionReceipt(txHash)
         } catch (err) {
             return err
         }
