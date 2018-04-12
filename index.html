@@ -1103,11 +1103,11 @@ function approveTokens() {
   
 var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
 var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
-console.log(balance)
-var decimal = tokenContract.decimals()
-console.log(decimals)
+//console.log(balance)
+var decimal = tokenContract.decimals(function(err,res) {console.log(res);} )
+//console.log(decimals)
 var adjustedBalance = balance / Math.pow(10, decimal)
-console.log(adjustedBalance)
+//console.log(adjustedBalance)
 tokenContract.approve(contract_address,balance)
 
 
