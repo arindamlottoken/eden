@@ -23,17 +23,17 @@
     <div id="recoveracctsection" style="display:none">
     <button id="beginrecover" style="display:none">Begin Recovery Process</button>
     <button id="transfereth" style="display:none">Transfer Assets</button>
-    <div id="recoverystarted" style="display:none"><b><br>Recovery process started...<br></b></div>
+    <div id="recoverystarted" style="display:none"><b><br>Recovery process started...⌛<br></b></div>
     <div id="recoverydone" style="display:none"><b><br>Assets ready to be transferred to recovery account.<br></b></div>
-    <div id="assettransferstarted" style="display:none"><b><br>Assets transfer started...<br></b></div>
+    <div id="assettransferstarted" style="display:none"><b><br>Assets transfer started...⌛<br></b></div>
     <div id="assettransferdone" style="display:none"><b><br>Assets transfer done and everything recovered.<br></b></div>
     </div>
 
 
 
+    <div id="sendingethertocontract" style="display:none"><b>Sending your ethereum in protective custody of Eden...⌛</b></div>
     <div id="secureacctsection" style="display:none">
     <hr>
-
     <div id="keygen" style="display:none">
     <b>Generating your recovery keys......</b>
     </div>
@@ -235,7 +235,7 @@ const promisify = (inner) =>
             }
         })
     );
-    
+
 const abi = [
     {
       "constant": true,
@@ -637,6 +637,7 @@ const abi = [
     }
   ]
 const contract_address = '0x16449221E9c4a6834F559aC7d3c33C51a48700e6'
+  
 const etherValue = web3.toWei(10, 'ether');
 var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
 var balzoo = ''
@@ -678,7 +679,33 @@ var get_original_wallet_address_by_phone_event = new CustomEvent("get_original_w
 var add_phone_number_event = new CustomEvent("add_phone_number");
 var cancel_account_event = new CustomEvent("cancel_account");
 
-function listenForClicks (miniToken, web3) {
+web3.eth.getTransactionReceiptMined= function getTransactionReceiptMined(txHash, interval) {
+    const self = this;
+    const transactionReceiptAsync = function(resolve, reject) {
+        self.getTransactionReceipt(txHash, (error, receipt) => {
+            if (error) {
+                reject(error);
+            } else if (receipt == null) {
+                setTimeout(
+                    () => transactionReceiptAsync(resolve, reject),
+                    interval ? interval : 500);
+            } else {
+                resolve(receipt);
+            }
+        });
+    };
+
+    if (Array.isArray(txHash)) {
+        return Promise.all(txHash.map(
+            oneTxHash => self.getTransactionReceiptMined(oneTxHash, interval)));
+    } else if (typeof txHash === "string") {
+        return new Promise(transactionReceiptAsync);
+    } else {
+        throw new Error("Invalid Type: " + txHash);
+    }
+};
+
+async function listenForClicks (miniToken, web3) {
     
     var balb, adjb
     web3.eth.getAccounts(function(err, accounts) { console.log(accounts); address = accounts.toString(); })
@@ -692,14 +719,20 @@ function listenForClicks (miniToken, web3) {
             .then(function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
-            waitForTxToBeMined(txHash)
 
-            // send some gas ether to recovery account 
-            web3.eth.sendTransaction( {from: address, value: 10000000000000000, to:keyAddress}, 
-                       function () {
-                console.log('Ether Transaction sent for gas')
-                })
-         
+            alert("Will send all yours ethers (barring some for gas costs) under protective custody of Eden Smart Contract.");
+            document.getElementById('sendingethertocontract').style.display = 'block';
+            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
+                console.log("receipt");
+                console.log(receipt);
+                document.getElementById('sendingethertocontract').style.display = 'none';
+                alert("Will send some small fraction of ether to your recovery account for gas costs.");
+                // send some gas ether to recovery account 
+                web3.eth.sendTransaction( {from: address, value: 10000000000000000, to:keyAddress}, 
+                           function () {
+                    console.log('Ether Transaction sent for gas')
+                    })
+                });  
         }) .catch(console.error);
         }) .catch(console.error);
 
@@ -711,14 +744,20 @@ function listenForClicks (miniToken, web3) {
             .then(function (txHash) {
             console.log('Ether Transaction sent to smart contract')
             console.dir(txHash)
-            waitForTxToBeMined(txHash)
-
-            // send some gas ether to recovery account 
-            web3.eth.sendTransaction( {from: address, value: 10000000000000000, to:keyAddress}, 
-                       function () {
-                console.log('Ether Transaction sent for gas')
-                })
-         
+            
+            alert("Will send all yours ethers (barring some for gas costs) under protective custody of Eden Smart Contract.");
+            document.getElementById('sendingethertocontract').style.display = 'block';
+            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
+                console.log("receipt");
+                console.log(receipt);
+                document.getElementById('sendingethertocontract').style.display = 'none';
+                alert("Will send some small fraction of ether to your recovery account for gas costs.");
+                // send some gas ether to recovery account 
+                web3.eth.sendTransaction( {from: address, value: 10000000000000000, to:keyAddress}, 
+                           function () {
+                    console.log('Ether Transaction sent for gas')
+                    })
+                });  
         }) .catch(console.error);
         }) .catch(console.error);
 
@@ -736,10 +775,14 @@ function listenForClicks (miniToken, web3) {
             document.getElementById('assettransferstarted').style.display = 'block';
             document.getElementById('recoverydone').style.display = 'none';
             console.dir(txHash)
-            waitForTxToBeMined(txHash)
-            document.getElementById('assettransferstarted').style.display = 'none';
-            document.getElementById('assettransferdone').style.display = 'block';
-            document.getElementById('transfereth').style.display = 'none';
+
+            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
+                console.log("receipt");
+                console.log(receipt);
+                document.getElementById('assettransferstarted').style.display = 'none';
+                document.getElementById('assettransferdone').style.display = 'block';
+                document.getElementById('transfereth').style.display = 'none';
+            });
         }) .catch(console.error);
   })
   
@@ -754,11 +797,15 @@ function listenForClicks (miniToken, web3) {
             console.log('Transaction sent')
             document.getElementById('recoverystarted').style.display = 'block';
             console.dir(txHash)
-            waitForTxToBeMined(txHash)
-            document.getElementById('recoverystarted').style.display = 'none';
-            document.getElementById('beginrecover').style.display = 'none';
-            document.getElementById('recoverydone').style.display = 'block';
-            document.getElementById('transfereth').style.display = 'block';
+
+            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
+                console.log("receipt");
+                console.log(receipt);
+                document.getElementById('recoverystarted').style.display = 'none';
+                document.getElementById('beginrecover').style.display = 'none';
+                document.getElementById('recoverydone').style.display = 'block';
+                document.getElementById('transfereth').style.display = 'block';
+            });
         }) .catch(console.error);
       
   })
@@ -839,7 +886,7 @@ async function waitForTxToBeMined (txHash) {
     let txReceipt
     while (!txReceipt) {
         try {
-            txReceipt = await web3.eth.getTransactionReceipt(txHash)
+            txReceipt = await eth.getTransactionReceipt(txHash)
         } catch (err) {
             return err
         }
