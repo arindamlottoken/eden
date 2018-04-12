@@ -1116,8 +1116,8 @@ function approveTokens() {
 var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
 //var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
 
-getBalance6(tokenContract,address).then (function() { console.log('Getting balance') }) .catch(console.error);
-console.log(toobie)
+getBalance6(tokenContract,address).then (function() { console.log('Getting balance') ; console.log(toobie) }) .catch(console.error);
+//console.log(toobie)
 //console.log(balance)
 //var decimal = tokenContract.decimals(function(err,res) {console.log(res);} )
 //console.log(decimals)
