@@ -20,7 +20,7 @@ struct one_account {
 }
 
 
-mapping (address => one_account) all_accounts;
+mapping (address => one_account) public all_accounts;
 mapping (bytes32 => address) phone2addr;
 mapping (bytes32 => address) emailaddr2addr;
 
@@ -77,6 +77,7 @@ function secure_account_big(
     all_accounts[msg.sender].recovery_account = input_recovery_account;
     all_accounts[msg.sender].timeout = input_timeout;
     all_accounts[msg.sender].veto_address = input_veto_address;
+    all_accounts[msg.sender].recovery_timer_active = false;
 
     if(input_phone_number_of_account_owner != 0)   
     {
@@ -272,6 +273,7 @@ function recover_account_end_ether(address account_address) public returns (stri
 
 		msg.sender.transfer(all_accounts[account_address].ether_balance);
 	        all_accounts[account_address].ether_balance=0;	
+		all_accounts[account_address].recovery_timer_active=false;
 		return("ether transferred");
 	}
 	else return("Not yet timed out. Try again later ... ");
@@ -289,10 +291,13 @@ function recover_account_begin(address account_address) public returns (string k
 	{
 		return("Call 1-800-EDENPLT to clear veto flag");
 	}
-	else
+	else 
 	{
-		all_accounts[account_address].timeout = now + all_accounts[account_address].timeout;
-		all_accounts[account_address].recovery_timer_active=true;
+		if( false == all_accounts[account_address].recovery_timer_active)
+		{
+			all_accounts[account_address].timeout = now + all_accounts[account_address].timeout;
+			all_accounts[account_address].recovery_timer_active=true;
+		}
 	} 
 }
 
@@ -311,3 +316,4 @@ function remove_some_ether (uint take) public
 }
 
 }
+
