@@ -1,349 +1,313 @@
+pragma solidity ^0.4.13;
+
+import "zeppelin-solidity/contracts/token/StandardToken.sol";
+
+contract EdenPlatform {
+
+
+struct one_account {
+    address account_owner;
+    address recovery_account;
+    address veto_address;
+    bytes32 phone_number_of_account_owner; 
+    bytes32 email_id_of_account_owner; 
+    string key_info;
+    bool veto_flag;
+    bool account_exists;
+    bool recovery_timer_active;
+    uint timeout;
+    uint ether_balance;
+}
+
+
+mapping (address => one_account) all_accounts;
+mapping (bytes32 => address) phone2addr;
+mapping (bytes32 => address) emailaddr2addr;
+
+function add_phone_number(bytes32 input_phone_number_of_account_owner) public
 {
-  "contract_name": "EdenPlatform",
-  "abi": [
+	require( true == all_accounts[msg.sender].account_exists);
+	if(input_phone_number_of_account_owner != 0)	
+	{
+		if(phone2addr[input_phone_number_of_account_owner] == 0)
+		{
+			phone2addr[all_accounts[msg.sender].phone_number_of_account_owner] = 0;
+			all_accounts[msg.sender].phone_number_of_account_owner = input_phone_number_of_account_owner;
+			phone2addr[input_phone_number_of_account_owner] = msg.sender;
+		}
+	}
+}
+
+function add_email_addr(bytes32 input_email_id_of_account_owner) public
+{
+	require( true == all_accounts[msg.sender].account_exists);
+	if(input_email_id_of_account_owner != 0)
+	{
+		if(emailaddr2addr[input_email_id_of_account_owner] == 0)
+		{
+			emailaddr2addr[all_accounts[msg.sender].email_id_of_account_owner] = 0;
+			all_accounts[msg.sender].email_id_of_account_owner = input_email_id_of_account_owner;
+			emailaddr2addr[input_email_id_of_account_owner] = msg.sender;
+		}
+	}
+}
+
+function add_veto_addr(address input_veto_address) public
+{
+	require( true == all_accounts[msg.sender].account_exists);
+	all_accounts[msg.sender].veto_address = input_veto_address;
+}
+
+function secure_account_big(
+    address input_recovery_account,
+    bytes32 input_phone_number_of_account_owner,
+    bytes32 input_email_id_of_account_owner,
+    string input_key_info,
+    uint input_timeout,
+    address input_veto_address
+) public payable
+{
+
+    require( false == all_accounts[msg.sender].account_exists);
+    //require( "" != key_info);
+    //require( input_assets > 0);
+
+    all_accounts[msg.sender].account_owner = msg.sender;
+    all_accounts[msg.sender].key_info = input_key_info;
+    all_accounts[msg.sender].recovery_account = input_recovery_account;
+    all_accounts[msg.sender].timeout = input_timeout;
+    all_accounts[msg.sender].veto_address = input_veto_address;
+
+    if(input_phone_number_of_account_owner != 0)   
     {
-      "constant": true,
-      "inputs": [
+        if(phone2addr[input_phone_number_of_account_owner] == 0)
         {
-          "name": "email",
-          "type": "bytes32"
+            all_accounts[msg.sender].phone_number_of_account_owner = input_phone_number_of_account_owner;
+            phone2addr[input_phone_number_of_account_owner] = msg.sender;
         }
-      ],
-      "name": "get_original_wallet_address_by_email",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "name": "spender",
-          "type": "address"
-        }
-      ],
-      "name": "remove_me_show_allowance",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "take",
-          "type": "uint256"
-        }
-      ],
-      "name": "remove_some_ether",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        }
-      ],
-      "name": "get_recovery_key_info_by_original_address",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account_owner",
-          "type": "address"
-        }
-      ],
-      "name": "cancel_veto_for_account",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        }
-      ],
-      "name": "recover_account_begin",
-      "outputs": [
-        {
-          "name": "key_info",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "input_recovery_account",
-          "type": "address"
-        },
-        {
-          "name": "input_phone_number_of_account_owner",
-          "type": "bytes32"
-        },
-        {
-          "name": "input_email_id_of_account_owner",
-          "type": "bytes32"
-        },
-        {
-          "name": "input_key_info",
-          "type": "string"
-        },
-        {
-          "name": "input_timeout",
-          "type": "uint256"
-        },
-        {
-          "name": "input_veto_address",
-          "type": "address"
-        }
-      ],
-      "name": "secure_account_big",
-      "outputs": [],
-      "payable": true,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "email",
-          "type": "bytes32"
-        }
-      ],
-      "name": "get_recovery_key_info_by_email",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        }
-      ],
-      "name": "get_recovery_address_by_original_address",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "input_recovery_account",
-          "type": "address"
-        },
-        {
-          "name": "input_key_info",
-          "type": "string"
-        }
-      ],
-      "name": "secure_account",
-      "outputs": [],
-      "payable": true,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "phone",
-          "type": "bytes32"
-        }
-      ],
-      "name": "get_original_wallet_address_by_phone",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "set_veto_for_account",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        }
-      ],
-      "name": "recover_account_end_ether",
-      "outputs": [
-        {
-          "name": "key_info",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        }
-      ],
-      "name": "cancel_account_call_after_recover",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "cancel_account",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "account_address",
-          "type": "address"
-        },
-        {
-          "name": "token",
-          "type": "address"
-        }
-      ],
-      "name": "recover_account_end_tokens",
-      "outputs": [
-        {
-          "name": "key_info",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "input_phone_number_of_account_owner",
-          "type": "bytes32"
-        }
-      ],
-      "name": "add_phone_number",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "phone",
-          "type": "bytes32"
-        }
-      ],
-      "name": "get_recovery_key_info_by_phone",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "input_veto_address",
-          "type": "address"
-        }
-      ],
-      "name": "add_veto_addr",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "input_email_id_of_account_owner",
-          "type": "bytes32"
-        }
-      ],
-      "name": "add_email_addr",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    },
-    {
-      "payable": true,
-      "type": "fallback"
     }
-  ],
-  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b611b958061001f6000396000f300606060405236156100f55763ffffffff60e060020a600035041662db06b2811461014d5780630b42e0251461017f578063134f3764146101bc57806323ef50d3146101d45780633b42b35d1461026b5780633e9621771461028c5780634bea37401461032357806352b4366e14610392578063657c2a3014610420578063677038e41461045b5780638157de4c146104b1578063839a462b146104e35780638670e866146104f85780639e0d6ff71461058f5780639fb093ef146105b0578063b5331eb6146105c5578063c624078914610662578063da7f0bca1461067a578063f1aaa9d414610708578063f620896014610729575b5b600160a060020a03331660009081526020819052604090206006015460ff61010090910416151560011461012957600080fd5b600160a060020a03331660009081526020819052604090206008018054340190555b005b341561015857600080fd5b610163600435610741565b604051600160a060020a03909116815260200160405180910390f35b341561018a57600080fd5b6101aa600160a060020a036004358116906024358116906044351661077e565b60405190815260200160405180910390f35b34156101c757600080fd5b61014b600435610803565b005b34156101df57600080fd5b6101f3600160a060020a03600435166108b5565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102305780820151818401525b602001610217565b50505050905090810190601f16801561025d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561027657600080fd5b61014b600160a060020a03600435166109b9565b005b341561029757600080fd5b6101f3600160a060020a0360043516610a0c565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102305780820151818401525b602001610217565b50505050905090810190601f16801561025d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61014b60048035600160a060020a03169060248035916044359160849060643590810190830135806020601f820181900481020160405190810160405281815292919060208401838380828437509496505084359460200135600160a060020a03169350610b2f92505050565b005b341561039d57600080fd5b6101f3600435610ce3565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102305780820151818401525b602001610217565b50505050905090810190601f16801561025d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561042b57600080fd5b610163600160a060020a0360043516610dd9565b604051600160a060020a03909116815260200160405180910390f35b61014b60048035600160a060020a03169060446024803590810190830135806020601f82018190048102016040519081016040528181529291906020840183838082843750949650610e3295505050505050565b005b34156104bc57600080fd5b610163600435610efb565b604051600160a060020a03909116815260200160405180910390f35b34156104ee57600080fd5b61014b610f3c565b005b341561050357600080fd5b6101f3600160a060020a0360043516610f8c565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102305780820151818401525b602001610217565b50505050905090810190601f16801561025d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561059a57600080fd5b61014b600160a060020a036004351661120c565b005b34156105bb57600080fd5b61014b611381565b005b34156105d057600080fd5b6101f3600160a060020a0360043581169060243516611563565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102305780820151818401525b602001610217565b50505050905090810190601f16801561025d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561066d57600080fd5b61014b600435611803565b005b341561068557600080fd5b6101f36004356118ad565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156102305780820151818401525b602001610217565b50505050905090810190601f16801561025d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561071357600080fd5b61014b600160a060020a03600435166119a4565b005b341561073457600080fd5b61014b600435611a0d565b005b600081815260026020526040812054600160a060020a0316156107785750600081815260026020526040902054600160a060020a03165b5b919050565b600083600160a060020a031663dd62ed3e848460006040516020015260405160e060020a63ffffffff8516028152600160a060020a03928316600482015291166024820152604401602060405180830381600087803b15156107df57600080fd5b6102c65a03f115156107f057600080fd5b50505060405180519150505b9392505050565b600160a060020a03331660009081526020819052604090206006015460ff61010090910416151560011461083657600080fd5b600160a060020a03331660009081526020819052604090206008015481111561085e57600080fd5b600160a060020a03331681156108fc0282604051600060405180830381858888f19350505050151561088f57600080fd5b600160a060020a0333166000908152602081905260409020600801805482900390555b50565b6108bd611ab7565b600160a060020a03821660009081526020819052604090206006015460ff610100909104161515600114156107785760008083600160a060020a0316600160a060020a031681526020019081526020016000206005018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156109a75780601f1061097c576101008083540402835291602001916109a7565b820191906000526020600020905b81548152906001019060200180831161098a57829003601f168201915b50505050509050610778565b5b919050565b600160a060020a038082166000908152602081905260409020600201543382169116146109e557600080fd5b600160a060020a0381166000908152602081905260409020600601805460ff191690555b50565b610a14611ab7565b600160a060020a03808316600090815260208190526040902060010154338216911614610a4057600080fd5b600160a060020a0380831660008181526020819052604090205490911614610a6757600080fd5b600160a060020a03821660009081526020819052604090206006015460ff16151560011415610af457606060405190810160405280602581526020017f43616c6c20312d3830302d4544454e504c5420746f20636c656172207665746f81526020017f20666c61670000000000000000000000000000000000000000000000000000008152509050610778565b600160a060020a038216600090815260208190526040902060078101805442019055600601805462ff00001916620100001790555b5b919050565b33600160a060020a0316600090815260208190526040902060060154610100900460ff1615610b5d57600080fd5b600160a060020a03331660008181526020819052604090208054600160a060020a0319169091178155600501838051610b9a929160200190611ac9565b50600160a060020a033381166000908152602081905260409020600181018054838a16600160a060020a0319918216179091556007820185905560029091018054928416929091169190911790558415610c4757600085815260016020526040902054600160a060020a03161515610c4757600160a060020a033316600081815260208181526040808320600301899055888352600190915290208054600160a060020a03191690911790555b5b8315610ca757600084815260026020526040902054600160a060020a03161515610ca757600160a060020a033316600081815260208181526040808320600401889055878352600290915290208054600160a060020a03191690911790555b5b600160a060020a033316600090815260208190526040902060088101805434019055600601805461ff0019166101001790555b505050505050565b610ceb611ab7565b600082815260026020526040902054600160a060020a03161561077857600082815260026020818152604080842054600160a060020a031684528382529283902060050180549093600182161561010002600019019091169290920491601f83018290048202909101905190810160405280929190818152602001828054600181600116156101000203166002900480156109a75780601f1061097c576101008083540402835291602001916109a7565b820191906000526020600020905b81548152906001019060200180831161098a57829003601f168201915b50505050509050610778565b5b919050565b600160a060020a03811660009081526020819052604081206006015460ff610100909104161515600114156107785750600160a060020a0380821660009081526020819052604090206001015416610778565b5b919050565b33600160a060020a0316600090815260208190526040902060060154610100900460ff1615610e6057600080fd5b600160a060020a03331660008181526020819052604090208054600160a060020a0319169091178155600501818051610e9d929160200190611ac9565b50600160a060020a03338116600090815260208190526040902060018082018054938616600160a060020a031990941693909317909255600781019190915560088101805434019055600601805461ff0019166101001790555b5050565b600081815260016020526040812054600160a060020a0316156107785750600081815260016020526040902054600160a060020a0316610778565b5b919050565b600160a060020a0333811660008181526020819052604090205490911614610f6357600080fd5b600160a060020a0333166000908152602081905260409020600601805460ff191660011790555b565b610f94611ab7565b600160a060020a03808316600090815260208190526040902060010154338216911614610fc057600080fd5b600160a060020a0380831660008181526020819052604090205490911614610fe757600080fd5b600160a060020a03821660009081526020819052604090206006015460ff1615156001141561107457606060405190810160405280602581526020017f43616c6c20312d3830302d4544454e504c5420746f20636c656172207665746f81526020017f20666c61670000000000000000000000000000000000000000000000000000008152509050610778565b600160a060020a03821660009081526020819052604090206006015462010000900460ff16151560011480156110c45750600160a060020a03821660009081526020819052604090206007015442115b80156110e95750600160a060020a038216600090815260208190526040812060080154115b156111a15733600160a060020a03166108fc60008085600160a060020a0316600160a060020a03168152602001908152602001600020600801549081150290604051600060405180830381858888f19350505050151561114857600080fd5b600160a060020a038216600090815260208190526040808220600801919091558051908101604052601181527f6574686572207472616e7366657272656400000000000000000000000000000060208201529050610778565b606060405190810160405280602781526020017f4e6f74207965742074696d6564206f75742e2054727920616761696e206c617481526020017f6572202e2e2e20000000000000000000000000000000000000000000000000008152509050610778565b5b5b919050565b600160a060020a03811660009081526020819052604090206006015460ff61010090910416151560011461123f57600080fd5b600160a060020a0380821660009081526020819052604090206001015433821691161461126b57600080fd5b600160a060020a038082166000818152602081905260409020549091161461129257600080fd5b600160a060020a03811660008181526020818152604080832060068101805461ff0019168155600382018054865260018086528487208054600160a060020a0319908116909155600485018054895260028852868920805483169055988852878752835460ff191690935583548316845590920180549091169055839055919092555190810160409081526000808352600160a060020a0384168152602081905220600501908051611348929160200190611ac9565b50600160a060020a0381166000908152602081905260408120600781018290556008810191909155600601805462ff0000191690555b50565b600160a060020a03331660009081526020819052604090206006015460ff6101009091041615156001146113b457600080fd5b600160a060020a03338116600081815260208190526040902054909116146113db57600080fd5b600160a060020a03331660008181526020818152604080832060068101805461ff001916905560038101548452600183528184208054600160a060020a03199081169091556004820154855260028452918420805490921690915592825281905260089091015411156114a857600160a060020a033316600081815260208190526040908190206008015480156108fc029151600060405180830381858888f19350505050151561148b57600080fd5b600160a060020a0333166000908152602081905260408120600801555b600160a060020a03331660009081526020818152604080832060068101805460ff191690558054600160a060020a0319908116825560018201805490911690556003810184905560040192909255905190810160409081526000808352600160a060020a033316815260208190522060050190805161152b929160200190611ac9565b50600160a060020a0333166000908152602081905260408120600160078201556008810191909155600601805462ff0000191690555b565b61156b611ab7565b600160a060020a0380841660009081526020819052604090206001015433821691161461159757600080fd5b600160a060020a03808416600081815260208190526040902054909116146115be57600080fd5b600160a060020a03831660009081526020819052604090206006015460ff1615156001141561164b57606060405190810160405280602581526020017f43616c6c20312d3830302d4544454e504c5420746f20636c656172207665746f81526020017f20666c616700000000000000000000000000000000000000000000000000000081525090506117fb565b600160a060020a03831660009081526020819052604090206006015462010000900460ff161515600114801561169b5750600160a060020a03831660009081526020819052604090206007015442115b1561179b57600160a060020a0382166323b872dd84338363dd62ed3e833060006040516020015260405160e060020a63ffffffff8516028152600160a060020a03928316600482015291166024820152604401602060405180830381600087803b151561170757600080fd5b6102c65a03f1151561171857600080fd5b5050506040518051905060006040516020015260405160e060020a63ffffffff8616028152600160a060020a0393841660048201529190921660248201526044810191909152606401602060405180830381600087803b151561177a57600080fd5b6102c65a03f1151561178b57600080fd5b50505060405180519050506117fb565b606060405190810160405280602781526020017f4e6f74207965742074696d6564206f75742e2054727920616761696e206c617481526020017f6572202e2e2e200000000000000000000000000000000000000000000000000081525090505b5b5b92915050565b600160a060020a03331660009081526020819052604090206006015460ff61010090910416151560011461183657600080fd5b80156108b257600081815260016020526040902054600160a060020a031615156108b25733600160a060020a03166000818152602081815260408083206003018054845260019092528083208054600160a060020a031990811690915591859055848352909120805490911690911790555b5b5b50565b6118b5611ab7565b600082815260016020526040902054600160a060020a03161561077857600082815260016020818152604080842054600160a060020a03168452838252928390206005018054909360029382161561010002600019019091169290920491601f83018290048202909101905190810160405280929190818152602001828054600181600116156101000203166002900480156109a75780601f1061097c576101008083540402835291602001916109a7565b820191906000526020600020905b81548152906001019060200180831161098a57829003601f168201915b50505050509050610778565b5b919050565b600160a060020a03331660009081526020819052604090206006015460ff6101009091041615156001146119d757600080fd5b33600160a060020a0390811660009081526020819052604090206002018054600160a060020a0319169183169190911790555b50565b600160a060020a03331660009081526020819052604090206006015460ff610100909104161515600114611a4057600080fd5b80156108b257600081815260026020526040902054600160a060020a031615156108b25733600160a060020a03166000818152602081815260408083206004018054845260029092528083208054600160a060020a031990811690915591859055848352909120805490911690911790555b5b5b50565b60206040519081016040526000815290565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10611b0a57805160ff1916838001178555611b37565b82800160010185558215611b37579182015b82811115611b37578251825591602001919060010190611b1c565b5b50611b44929150611b48565b5090565b611b6691905b80821115611b445760008155600101611b4e565b5090565b905600a165627a7a72305820816899e8a13dcfbcef85cb83de29c0aad7da71f27a8eec7255f456aef7a4b69e0029",
-  "networks": {},
-  "schema_version": "0.0.5",
-  "updated_at": 1522982005850
+    if(input_email_id_of_account_owner != 0)
+    {
+        if(emailaddr2addr[input_email_id_of_account_owner] == 0)
+        {
+            all_accounts[msg.sender].email_id_of_account_owner = input_email_id_of_account_owner;
+            emailaddr2addr[input_email_id_of_account_owner] = msg.sender;
+        }
+    }
+
+    all_accounts[msg.sender].ether_balance += msg.value;
+    all_accounts[msg.sender].account_exists = true;
+
+}
+
+function secure_account(
+    address input_recovery_account,
+    string input_key_info
+) public payable
+{
+
+	require( false == all_accounts[msg.sender].account_exists);
+	//require( "" != key_info);
+	//require( input_assets > 0);
+
+	all_accounts[msg.sender].account_owner = msg.sender; 
+	all_accounts[msg.sender].key_info = input_key_info;
+	all_accounts[msg.sender].recovery_account = input_recovery_account;
+	all_accounts[msg.sender].timeout = 1;
+	all_accounts[msg.sender].ether_balance += msg.value;
+	all_accounts[msg.sender].account_exists = true;
+
+}
+
+function set_veto_for_account() public
+{
+	//require( true == all_accounts[msg.sender].account_exists);
+	require( msg.sender == all_accounts[msg.sender].account_owner );
+	all_accounts[msg.sender].veto_flag = true;
+}
+
+
+function cancel_veto_for_account(address account_owner) public
+{
+	//require( true == all_accounts[msg.sender].account_exists);
+	require( msg.sender == all_accounts[account_owner].veto_address );
+	all_accounts[account_owner].veto_flag = false;
+
+}
+
+function get_original_wallet_address_by_phone(bytes32 phone) public constant returns (address)
+{
+	if(phone2addr[phone] != 0)
+		return phone2addr[phone];
+}
+
+function get_original_wallet_address_by_email(bytes32 email) public constant returns (address)
+{
+	if(emailaddr2addr[email] != 0)
+		return emailaddr2addr[email];
+}
+
+
+function get_recovery_key_info_by_phone(bytes32 phone) public constant returns (string)
+{
+	if(phone2addr[phone] != 0)
+		return all_accounts[phone2addr[phone]].key_info;
+
+}
+
+function get_recovery_key_info_by_email(bytes32 email) public constant returns (string)
+{
+	if(emailaddr2addr[email] != 0)
+		return all_accounts[emailaddr2addr[email]].key_info;
+
+}
+
+
+function get_recovery_key_info_by_original_address(address account_address) public constant returns (string)
+{
+	if(true == all_accounts[account_address].account_exists )
+		return all_accounts[account_address].key_info;
+
+}
+
+
+function get_recovery_address_by_original_address(address account_address) public constant returns (address)
+{
+	if(true == all_accounts[account_address].account_exists )
+		return all_accounts[account_address].recovery_account;
+
+}
+
+function cancel_account_call_after_recover(address account_address) public
+{
+
+	require( true == all_accounts[account_address].account_exists);
+        require( msg.sender == all_accounts[account_address].recovery_account );
+        require( account_address == all_accounts[account_address].account_owner );
+
+	all_accounts[account_address].account_exists = false;
+	phone2addr[all_accounts[account_address].phone_number_of_account_owner] = 0;
+	emailaddr2addr[all_accounts[account_address].email_id_of_account_owner] = 0;
+
+	all_accounts[account_address].veto_flag = false;
+	all_accounts[account_address].account_owner = 0; 
+	all_accounts[account_address].recovery_account = 0; 
+	all_accounts[account_address].phone_number_of_account_owner = "";
+	all_accounts[account_address].email_id_of_account_owner = "";
+	all_accounts[account_address].key_info = "";
+	all_accounts[account_address].timeout = 0;
+	all_accounts[account_address].ether_balance = 0;
+	all_accounts[account_address].recovery_timer_active = false;
+}
+
+
+function cancel_account() public
+{
+	require( true == all_accounts[msg.sender].account_exists);
+	require( msg.sender == all_accounts[msg.sender].account_owner );
+
+	all_accounts[msg.sender].account_exists = false;
+	phone2addr[all_accounts[msg.sender].phone_number_of_account_owner] = 0;
+	emailaddr2addr[all_accounts[msg.sender].email_id_of_account_owner] = 0;
+
+	if (all_accounts[msg.sender].ether_balance >0)  {
+
+		msg.sender.transfer(all_accounts[msg.sender].ether_balance);
+	        all_accounts[msg.sender].ether_balance=0;	
+	}
+
+	all_accounts[msg.sender].veto_flag = false;
+	all_accounts[msg.sender].account_owner = 0; 
+	all_accounts[msg.sender].recovery_account = 0; 
+	all_accounts[msg.sender].phone_number_of_account_owner = "";
+	all_accounts[msg.sender].email_id_of_account_owner = "";
+	all_accounts[msg.sender].key_info = "";
+	all_accounts[msg.sender].timeout = 1;
+	all_accounts[msg.sender].ether_balance = 0;
+	all_accounts[msg.sender].recovery_timer_active = false;
+}
+
+function remove_me_show_allowance(StandardToken token, address account, address spender) public constant returns (uint)
+{
+		return token.allowance(account, spender);
+} 
+
+
+function recover_account_end_tokens(address account_address, StandardToken token) public returns (string key_info)
+{
+	require( msg.sender == all_accounts[account_address].recovery_account );
+	require( account_address == all_accounts[account_address].account_owner );
+
+	if(true == all_accounts[account_address].veto_flag)
+	{
+		return("Call 1-800-EDENPLT to clear veto flag");
+	}
+	else {
+	if (( all_accounts[account_address].recovery_timer_active == true) &&
+	(now > all_accounts[account_address].timeout))  {
+
+		token.transferFrom(account_address, 
+		msg.sender,
+		token.allowance(account_address, this));
+
+	}
+	else return("Not yet timed out. Try again later ... ");
+	}
+}
+
+
+function recover_account_end_ether(address account_address) public returns (string key_info)
+{
+	require( msg.sender == all_accounts[account_address].recovery_account );
+	require( account_address == all_accounts[account_address].account_owner );
+
+	if(true == all_accounts[account_address].veto_flag)
+	{
+		return("Call 1-800-EDENPLT to clear veto flag");
+	}
+	else {
+	if (( all_accounts[account_address].recovery_timer_active == true) &&
+	(now > all_accounts[account_address].timeout) &&
+	 ( all_accounts[account_address].ether_balance>0))  {
+
+		msg.sender.transfer(all_accounts[account_address].ether_balance);
+	        all_accounts[account_address].ether_balance=0;	
+		return("ether transferred");
+	}
+	else return("Not yet timed out. Try again later ... ");
+	}
+}
+
+
+function recover_account_begin(address account_address) public returns (string key_info)
+{
+	//require( true == all_accounts[account_address].account_exists);
+	require( msg.sender == all_accounts[account_address].recovery_account );
+	require( account_address == all_accounts[account_address].account_owner );
+
+	if(true == all_accounts[account_address].veto_flag)
+	{
+		return("Call 1-800-EDENPLT to clear veto flag");
+	}
+	else
+	{
+		all_accounts[account_address].timeout = now + all_accounts[account_address].timeout;
+		all_accounts[account_address].recovery_timer_active=true;
+	} 
+}
+
+function () public payable
+{
+	require(true == all_accounts[msg.sender].account_exists);
+	all_accounts[msg.sender].ether_balance += msg.value;
+}
+
+function remove_some_ether (uint take) public
+{
+	require(true == all_accounts[msg.sender].account_exists);
+	require(take <= all_accounts[msg.sender].ether_balance);
+	msg.sender.transfer(take);
+	all_accounts[msg.sender].ether_balance -= take;
+}
+
 }
