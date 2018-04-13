@@ -1269,7 +1269,7 @@ function approveTokens() {
   console.log(token_address);
   tokenContract = web3.eth.contract(erc20_abi).at(token_address)
   getBalance6().then(function () { console.log(toobie) }).catch(console.error)
-  tokenContract.approve( contract_address, toobie, {from: address, to:token_address, gas:100000} )
+  tokenContract.approve( contract_address, toobie, {from: address, to:token_address, gas:100000}, function(err, result) { console.log(result) }  )
   
   //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
 
