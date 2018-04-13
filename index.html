@@ -787,6 +787,30 @@ async function listenForClicks (miniToken, web3) {
         alert("Please add the recovery account to MetaMask and make it the default account.");
         return;
     }
+      
+            //transferring tokens
+      //this will require a loop to iterate through all tokens and initiate transfers 
+      //perhaps a batch operation ?
+      //for now just transferring only lottokens
+      
+      miniToken.recover_account_end_token(originalAddress, token_address, { from: address, gas: 300000 }).then(function (txHash) {
+            console.log('Transaction sent - Transferring Tokens')
+            document.getElementById('assettransferstarted').style.display = 'block';
+            document.getElementById('recoverydone').style.display = 'none';
+            console.dir(txHash)
+
+        //removing return
+            web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
+                console.log("receipt");
+                console.log(receipt);
+                document.getElementById('assettransferstarted').style.display = 'none';
+                document.getElementById('assettransferdone').style.display = 'block';
+                document.getElementById('transfereth').style.display = 'none';
+            });
+        }) .catch(console.error);
+      
+      
+      
     miniToken.recover_account_end_ether(originalAddress, { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent')
             document.getElementById('assettransferstarted').style.display = 'block';
@@ -803,26 +827,7 @@ async function listenForClicks (miniToken, web3) {
         }) .catch(console.error);
       
       
-      //transferring tokens
-      //this will require a loop to iterate through all tokens and initiate transfers 
-      //perhaps a batch operation ?
-      //for now just transferring only lottokens
-      
-      miniToken.recover_account_end_token(originalAddress, token_address, { from: address, gas: 300000 }).then(function (txHash) {
-            console.log('Transaction sent - Transferring Tokens')
-            document.getElementById('assettransferstarted').style.display = 'block';
-            document.getElementById('recoverydone').style.display = 'none';
-            console.dir(txHash)
 
-            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
-                console.log("receipt");
-                console.log(receipt);
-                document.getElementById('assettransferstarted').style.display = 'none';
-                document.getElementById('assettransferdone').style.display = 'block';
-                document.getElementById('transfereth').style.display = 'none';
-            });
-        }) .catch(console.error);
-      
       
   })
   
