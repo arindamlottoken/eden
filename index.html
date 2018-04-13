@@ -1272,7 +1272,19 @@ function approveTokens_bad() {
   //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
 
  getBalance6()
-   .then( function () { tokenContract.approve( contract_address, toobie, {from: address, gas:100000, to: token_address} ) 
+//   .then( function () { tokenContract.approve( contract_address, toobie, {from: address, gas:100000, to: token_address} )
+  .then( function () { tokenContract.approve( contract_address, toobie, function(error, result){
+    if(!error)
+        console.log(JSON.stringify(result));
+    else
+        console.error(error);
+})
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            )
        .then( function (txHash) {
             console.log('Transaction sent')
             console.dir(txHash)
