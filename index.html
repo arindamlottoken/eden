@@ -1223,45 +1223,20 @@ var token_address = ''
 var token_balance = ''
 var tokenContract
   
-function approveTokens_bad() {
+function approveTokens() {
 
   var dropdown = document.getElementById("test_select");
   token_address = dropdown.options[dropdown.selectedIndex].value;
   console.log("Approving token address");
   console.log(token_address);
   tokenContract = web3.eth.contract(erc20_abi).at(token_address)
-  //getBalance6().then(function () { console.log(toobie) }).catch(console.error)
-  //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
-
-  
-  getBalance6()
-          .then (function () { console.log(toobie); tokenContract.approve(contract_address, toobie, { from: address, to: token_address, gas: 1000000 } ) 
-            .then(function (txHash) {
-            console.log('Transaction sent')
-            console.dir(txHash)
-
-            alert("Approving your ERC20 Token for transfer");
-        //    document.getElementById('sendingethertocontract').style.display = 'block';
-            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
-                console.log("receipt");
-                console.log(receipt);
-       //         document.getElementById('sendingethertocontract').style.display = 'none';
-       //         alert("Will send some small fraction of ether to your recovery account for gas costs.");
-                // send some gas ether to recovery account 
-           //     web3.eth.sendTransaction( {from: address, value: 10000000000000000, to:keyAddress}, 
-             //              function () {
-                    console.log('Ether Transaction sent for gas')
-               //     })
-                });  
-        }) .catch(console.error);
-        }) .catch(console.error);
-  
-  
-  
+  getBalance6().then(function () { console.log(toobie) ; 
+  tokenContract.approve( contract_address, toobie, {from: address, to:token_address, gas:100000}, function(err, result) { console.log(result) }  )
+  }).catch(console.error)
 
 }
 
-function approveTokens() {
+function approveTokens_good() {
 
   var dropdown = document.getElementById("test_select");
   token_address = dropdown.options[dropdown.selectedIndex].value;
@@ -1272,10 +1247,6 @@ function approveTokens() {
   tokenContract.approve( contract_address, toobie, {from: address, to:token_address, gas:100000}, function(err, result) { console.log(result) }  )
   
   //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
-
-  
-
-
 
 }
 
