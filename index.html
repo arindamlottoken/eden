@@ -1233,7 +1233,7 @@ function approveTokens() {
   console.log("Approving token address");
   console.log(token_address);
   
-  var tokenContract = web3.eth.contract(erc20_abi).at(token_address)
+  tokenContract = web3.eth.contract(erc20_abi).at(token_address)
   
   //tokenContract = web3.eth.contract(erc20_abi).at('0x10fd19cB91f02487A14e5B4AE88147C5C2a09Fcc')
   
