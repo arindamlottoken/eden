@@ -1229,10 +1229,8 @@ function approveTokens() {
   token_address = dropdown.options[dropdown.selectedIndex].value;
   console.log("Approving token address");
   console.log(token_address);
-  
-  tokenContract = web3.eth.contract(erc20_abi).at(token_address
-  
-   getBalance6().then(function () { console.log(toobie) }).catch(console.error)
+  tokenContract = web3.eth.contract(erc20_abi).at(token_address)
+  getBalance6().then(function () { console.log(toobie) }).catch(console.error)
 
 
 
