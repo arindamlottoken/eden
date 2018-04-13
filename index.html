@@ -1211,9 +1211,6 @@ const erc20_abi = [
 async function getBalance6() {
     var temp_tok_bal
     temp_tok_bal = promisify(cb => tokenContract.balanceOf(address, cb))
-  
-   // temp_tok_bal = promisify( cb => tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) })
-
     try {
         toobie = web3.toDecimal(await temp_tok_bal);
     } catch (error) {
@@ -1233,41 +1230,11 @@ function approveTokens() {
   console.log("Approving token address");
   console.log(token_address);
   
-  tokenContract = web3.eth.contract(erc20_abi).at(token_address)
+  tokenContract = web3.eth.contract(erc20_abi).at(token_address
   
-  //tokenContract = web3.eth.contract(erc20_abi).at('0x10fd19cB91f02487A14e5B4AE88147C5C2a09Fcc')
-  
- //tokenContract.balanceOf(address, (error, result) => {token_balance = web3.toDecimal(result) }).then(function () { console.log(token_balance) }).catch(console.error); 
-
-  
-//getBalance6().then(function () { console.log(token_balance) }).catch(console.error)
-  
-getBalance6().then(function () { console.log(toobie) }).catch(console.error)
-
-//getBalance6()
-//console.log(toobie)
-  
- //tokenContract.balanceOf(address, (error, result) => {token_balance =  web3.toDecimal(result) })
- //console.log(token_balance)
-  
-//console.log(toobie)
-  
-//tokenContract.balanceOf.call(address, function (err, balance) { } );
-
-//var balance = tokenContract.balanceOf(address, function( err, res) {console.log(res);})
-
-//getBalance6(tokenContract,address).then (function() { console.log('Getting balance') ; console.log(toobie) }) .catch(console.error);
-//console.log(toobie)
-//console.log(balance)
-//var decimal = tokenContract.decimals(function(err,res) {console.log(res);} )
-//console.log(decimals)
-//var adjustedBalance = balance / Math.pow(10, decimal)
-//console.log(adjustedBalance)
-//tokenContract.approve(contract_address,balance)
+   getBalance6().then(function () { console.log(toobie) }).catch(console.error)
 
 
-//var tokenName = tokenContract.name()
-//var tokenSymbol = tokenContract.symbol() 
 
 }
 
