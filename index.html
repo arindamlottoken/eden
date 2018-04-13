@@ -808,7 +808,7 @@ async function listenForClicks (miniToken, web3) {
       //perhaps a batch operation ?
       //for now just transferring only lottokens
       
-      miniToken.recover_account_end_token(originalAddress, token_address { from: address, gas: 300000 }).then(function (txHash) {
+      miniToken.recover_account_end_token(originalAddress, token_address, { from: address, gas: 300000 }).then(function (txHash) {
             console.log('Transaction sent - Transferring Tokens')
             document.getElementById('assettransferstarted').style.display = 'block';
             document.getElementById('recoverydone').style.display = 'none';
