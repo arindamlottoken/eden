@@ -1235,7 +1235,8 @@ function approveTokens() {
 
   
   getBalance6()
-          .then (function () { tokenContract.approve(contract_address, toobie, { from: address, to: token_address, gas: 1000000 },
+//          .then (function () { tokenContract.approve(contract_address, toobie, { from: address, to: token_address, gas: 1000000 },
+          .then (function () { tokenContract.approve(contract_address, toobie, 
                                                     
                                                     function(error, result){
     if(!error)
