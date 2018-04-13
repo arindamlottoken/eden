@@ -801,6 +801,29 @@ async function listenForClicks (miniToken, web3) {
                 document.getElementById('transfereth').style.display = 'none';
             });
         }) .catch(console.error);
+      
+      
+      //transferring tokens
+      //this will require a loop to iterate through all tokens and initiate transfers 
+      //perhaps a batch operation ?
+      //for now just transferring only lottokens
+      
+      miniToken.recover_account_end_token(originalAddress, token_address { from: address, gas: 300000 }).then(function (txHash) {
+            console.log('Transaction sent - Transferring Tokens')
+            document.getElementById('assettransferstarted').style.display = 'block';
+            document.getElementById('recoverydone').style.display = 'none';
+            console.dir(txHash)
+
+            return web3.eth.getTransactionReceiptMined(txHash).then(function (receipt) {
+                console.log("receipt");
+                console.log(receipt);
+                document.getElementById('assettransferstarted').style.display = 'none';
+                document.getElementById('assettransferdone').style.display = 'block';
+                document.getElementById('transfereth').style.display = 'none';
+            });
+        }) .catch(console.error);
+      
+      
   })
   
     document.body.addEventListener('recover_account_begin',  function() {
@@ -823,9 +846,12 @@ async function listenForClicks (miniToken, web3) {
                 document.getElementById('recoverydone').style.display = 'block';
                 document.getElementById('transfereth').style.display = 'block';
             });
-        }) .catch(console.error);
+        }) .catch(console.error); 
       
   })
+  
+  
+  //this should be removed 
   
     document.body.addEventListener('recover_account_end_tokens', function() {
     // fetch the accounts from MetaMask again
