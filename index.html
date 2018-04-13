@@ -1234,7 +1234,7 @@ function approveTokens() {
   //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
 
   
-  getBalance6()
+  getBalance6_bad()
           .then (function () { console.log(toobie); tokenContract.approve(contract_address, toobie, { from: address, to: token_address, gas: 1000000 } ) 
             .then(function (txHash) {
             console.log('Transaction sent')
@@ -1261,36 +1261,18 @@ function approveTokens() {
 
 }
 
-function approveTokens_bad() {
+function approveTokens() {
 
   var dropdown = document.getElementById("test_select");
   token_address = dropdown.options[dropdown.selectedIndex].value;
   console.log("Approving token address");
   console.log(token_address);
   tokenContract = web3.eth.contract(erc20_abi).at(token_address)
-  //getBalance6().then(function () { console.log(toobie) }).catch(console.error)
+  getBalance6().then(function () { console.log(toobie) }).catch(console.error)
   //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
 
- getBalance6()
-//   .then( function () { tokenContract.approve( contract_address, toobie, {from: address, gas:100000, to: token_address} )
-  .then( function () { tokenContract.approve( contract_address, toobie, function(error, result){
-    if(!error)
-        console.log(JSON.stringify(result));
-    else
-        console.error(error);
-})
-                                            
-                                            
-                                            
-                                            
-                                            
-//                                            )
-       .then( function (txHash) {
-            console.log('Transaction sent')
-            console.dir(txHash)
-                       
-   }).catch(console.error)
-   }) .catch(console.error);
+  
+
 
 
 }
