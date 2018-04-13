@@ -1223,7 +1223,7 @@ var token_address = ''
 var token_balance = ''
 var tokenContract
   
-function approveTokens() {
+function approveTokens_bad() {
 
   var dropdown = document.getElementById("test_select");
   token_address = dropdown.options[dropdown.selectedIndex].value;
@@ -1234,7 +1234,7 @@ function approveTokens() {
   //getBalance6().then(function () { console.log(toobie) tokenContract.approve( contract_address, toobie, {from: address, gas:100000} ) }).catch(console.error)
 
   
-  getBalance6_bad()
+  getBalance6()
           .then (function () { console.log(toobie); tokenContract.approve(contract_address, toobie, { from: address, to: token_address, gas: 1000000 } ) 
             .then(function (txHash) {
             console.log('Transaction sent')
