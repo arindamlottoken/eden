@@ -2529,12 +2529,14 @@ function approveTokens() {
   var i
    
 //    list_of_tok_contract[i].balanceOf(address, function(err, result) { console.log(result) } )
-    
+  
+  console.log("Before calling getBalance7");
+  
     getBalance7().then( function () { 
       
           for (i = 0; i< tokAddress.length; i++) 
            
-                { console.log(tok_balance_list[i]) }
+                { console.log("Final token balance list #" + i + "=" + tok_balance_list[i]) }
       
     }).catch(console.error)  
     
@@ -2545,10 +2547,12 @@ function approveTokens() {
 async function getBalance7() {
     var temp_tok_bal = new Array()
     var i 
+    console.log("Inside  getBalance7 before calling loop ");
     for (i = 0; i< tokAddress.length; i++)  {
       temp_tok_bal[i] = promisify(cb => list_of_tok_contract[i].balanceOf(address, cb))
       try {
-        tok_balance_list = web3.toDecimal(await temp_tok_bal[i]);
+        tok_balance_list[i] = web3.toDecimal(await temp_tok_bal[i]);
+        console.log("Got balance for token # "+ i+ "is "+ tok_balance_list[i])
       } catch (error) {
         
       }
