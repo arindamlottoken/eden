@@ -2530,7 +2530,13 @@ function approveTokens() {
    
 //    list_of_tok_contract[i].balanceOf(address, function(err, result) { console.log(result) } )
     
-    getBalance7().then(function () {for (i = 0; i< tokAddress.length; i++) { console.log(tok_balance_list[i]) }).catch(console.error)  
+    getBalance7().then( function () { 
+      
+          for (i = 0; i< tokAddress.length; i++) 
+           
+                { console.log(tok_balance_list[i]) }
+      
+    }).catch(console.error)  
     
   
   
