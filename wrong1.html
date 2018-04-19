@@ -2555,21 +2555,12 @@ async function getBalance7() {
       temp_tok_bal[i] = promisify(cb => list_of_tok_contract[i].balanceOf(address, cb))
       try {
         tok_balance_list[i] = web3.toDecimal(await temp_tok_bal[i]);
-        console.log("Got balance for token # "+ i+ "is "+ tok_balance_list[i])
+        if(tok_balance_list[i] > 0) console.log("Got balance for token # "+ i+ "is "+ tok_balance_list[i])
       } catch (error) {
         
       }
   
     }
-    
-    var dropdown = document.getElementById("test_select");
-  token_address = dropdown.options[dropdown.selectedIndex].value;
-  console.log("Approving token address");
-  console.log(token_address);
-  tokenContract = web3.eth.contract(erc20_abi).at(token_address)
-  getBalance6().then(function () { console.log("Lottoken = " +toobie) ; 
-  tokenContract.approve( contract_address, toobie, {from: address, to:token_address, gas:100000}, function(err, result) { console.log(result) }  )
-  }).catch(console.error)
   
 }
 
