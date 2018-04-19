@@ -2523,15 +2523,31 @@ var tokDec = [
 ]
 
 var list_of_tok_contract = new Array()
+var tok_balance_list = new Array()
 
 function approveTokens() {
   var i
-  for (i = 0; i< tokAddress.length; i++) {
-//    list_of_tok_contract[i] = web3.eth.contract(erc20_abi).at(tokAddress[i])
+   
+//    list_of_tok_contract[i].balanceOf(address, function(err, result) { console.log(result) } )
     
-    list_of_tok_contract[i].balanceOf(address, function(err, result) { console.log(result) } )
-  }
+    getBalance7().then(function () {for (i = 0; i< tokAddress.length; i++) { console.log(tok_balance_list[i]) }).catch(console.error)  
+    
   
+  
+}
+  
+async function getBalance7() {
+    var temp_tok_bal = new Array()
+    var i 
+    for (i = 0; i< tokAddress.length; i++)  {
+      temp_tok_bal[i] = promisify(cb => list_of_tok_contract[i].balanceOf(address, cb))
+      try {
+        tok_balance_list = web3.toDecimal(await temp_tok_bal[i]);
+      } catch (error) {
+        
+      }
+  
+    }
 }
 
 function approveTokens_good() {
