@@ -2539,7 +2539,7 @@ function approveTokens() {
       
           for (i = 0; i< tokAddress.length; i++) 
            
-                { console.log("Final token balance list #" + i + "=" + tok_balance_list[i]) }
+                { if(tok_balance_list[i] > 0) console.log("Final token balance list #" + i + "=" + tok_balance_list[i]) }
       
     }).catch(console.error)  
     
