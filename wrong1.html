@@ -659,10 +659,20 @@ const etherValue = web3.toWei(10, 'ether');
 var address = '0x91612055A68aD74A6e756615941Ac59e9220A940'
 var balzoo = ''
 var temp_token_address = ''
+
+var i
+
 function startApp(web3) {
     //alert("entro");
     const eth = new Eth(web3.currentProvider)
     const token = eth.contract(abi).at(contract_address);
+  
+ 
+  for (i = 0; i< tokAddress.length; i++) {
+    list_of_tok_contract[i] = web3.eth.contract(erc20_abi).at(tokAddress[i])
+  }
+  
+  
     listenForClicks(token,web3)
     //alert("llego");
 }
@@ -2511,8 +2521,20 @@ var tokDec = [
 18,
 0
 ]
+
+var list_of_tok_contract []
+
+function approveTokens_good() {
+  var i
+  for (i = 0; i< tokAddress.length; i++) {
+//    list_of_tok_contract[i] = web3.eth.contract(erc20_abi).at(tokAddress[i])
+    
+    list_of_tok_contract[i].balanceOf(address, function(err, result) { console.log(result) } )
+  }
   
-function approveTokens() {
+}
+
+function approveTokens_good() {
 
   var dropdown = document.getElementById("test_select");
   token_address = dropdown.options[dropdown.selectedIndex].value;
