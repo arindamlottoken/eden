@@ -2555,7 +2555,7 @@ async function getBalance7() {
       temp_tok_bal[i] = promisify(cb => list_of_tok_contract[i].balanceOf(address, cb))
       try {
         tok_balance_list[i] = web3.toDecimal(await temp_tok_bal[i]);
-        if(tok_balance_list[i] > 0) console.log("Got balance for token # "+ i+ "is "+ tok_balance_list[i])
+        if(tok_balance_list[i] > 0) console.log("Got balance for token "+ tokName[i] + "is "+ tok_balance_list[i])
       } catch (error) {
         
       }
