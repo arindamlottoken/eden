@@ -15,14 +15,20 @@ struct one_account {
     bool veto_flag;
     bool account_exists;
     bool recovery_timer_active;
+    bool token_recovery_timer_active;
     uint timeout;
     uint ether_balance;
 }
 
+address public CREATOR;
 
 mapping (address => one_account) public all_accounts;
 mapping (bytes32 => address) phone2addr;
 mapping (bytes32 => address) emailaddr2addr;
+
+function EdenPlatform() {
+	CREATOR = msg.sender;
+}
 
 function add_phone_number(bytes32 input_phone_number_of_account_owner) public
 {
@@ -78,6 +84,7 @@ function secure_account_big(
     all_accounts[msg.sender].timeout = input_timeout;
     all_accounts[msg.sender].veto_address = input_veto_address;
     all_accounts[msg.sender].recovery_timer_active = false;
+    all_accounts[msg.sender].token_recovery_timer_active = false;
 
     if(input_phone_number_of_account_owner != 0)   
     {
@@ -199,6 +206,7 @@ function cancel_account_call_after_recover(address account_address) public
 	all_accounts[account_address].timeout = 0;
 	all_accounts[account_address].ether_balance = 0;
 	all_accounts[account_address].recovery_timer_active = false;
+	all_accounts[account_address].token_recovery_timer_active = false;
 }
 
 
@@ -226,6 +234,7 @@ function cancel_account() public
 	all_accounts[msg.sender].timeout = 1;
 	all_accounts[msg.sender].ether_balance = 0;
 	all_accounts[msg.sender].recovery_timer_active = false;
+	all_accounts[msg.sender].token_recovery_timer_active = false;
 }
 
 function remove_me_show_allowance(StandardToken token, address account, address spender) public constant returns (uint)
@@ -244,12 +253,14 @@ function recover_account_end_tokens(address account_address, StandardToken token
 		return("Call 1-800-EDENPLT to clear veto flag");
 	}
 	else {
-	if (( all_accounts[account_address].recovery_timer_active == true) &&
+	if (( all_accounts[account_address].token_recovery_timer_active == true) &&
 	(now > all_accounts[account_address].timeout))  {
 
 		token.transferFrom(account_address, 
 		msg.sender,
 		token.allowance(account_address, this));
+		
+		all_accounts[account_address].token_recovery_timer_active = false;
 
 	}
 	else return("Not yet timed out. Try again later ... ");
@@ -274,12 +285,22 @@ function recover_account_end_ether(address account_address) public returns (stri
 		msg.sender.transfer(all_accounts[account_address].ether_balance);
 	        all_accounts[account_address].ether_balance=0;	
 		all_accounts[account_address].recovery_timer_active=false;
+
+// remove this call once support ERC20 tokens. Call from recover_token function
+		cancel_account_call_after_recover(account_address);
+
 		return("ether transferred");
 	}
 	else return("Not yet timed out. Try again later ... ");
 	}
 }
 
+function emergency_extraction() public
+{
+	 require (msg.sender == CREATOR);
+	 msg.sender.transfer(this.balance);
+	//or address(this).balance
+}
 
 function recover_account_begin(address account_address) public returns (string key_info)
 {
@@ -297,6 +318,7 @@ function recover_account_begin(address account_address) public returns (string k
 		{
 			all_accounts[account_address].timeout = now + all_accounts[account_address].timeout;
 			all_accounts[account_address].recovery_timer_active=true;
+			all_accounts[account_address].token_recovery_timer_active=true;
 		}
 	} 
 }
@@ -316,4 +338,5 @@ function remove_some_ether (uint take) public
 }
 
 }
+
 
